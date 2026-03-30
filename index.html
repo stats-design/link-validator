@@ -472,6 +472,22 @@ async function analyzeWithGPT(siteText, url, proyecto, anchor) {
   const systemPrompt = `Eres un experto en link building para el sector de apuestas deportivas y casinos online en España.
 Analiza el contenido de un sitio web y evalúa si es apto para publicar un artículo de pago con enlace dofollow hacia páginas de apuestas, casinos, métodos de pago o fintech en España.
 
+CRITERIO CLAVE DE EVALUACIÓN:
+El contenido del sitio NO necesita hablar de apuestas o casinos. Son válidos los medios que cubran:
+- Deportes (fútbol, baloncesto, tenis, motor, cualquier deporte)
+- Tecnología y apps
+- Noticias de actualidad e interés general
+- Economía, finanzas, pagos digitales
+- Medios generalistas con audiencia española
+
+Solo debes marcar apto_linkbuilding como FALSE si el sitio:
+- Publica EXCLUSIVAMENTE noticias locales de ciudad (ayuntamiento, vecinos, fiestas municipales, obras locales) sin ningún contenido de interés general
+- No tiene criterio editorial coherente (repositorio de contenido aleatorio)
+- El contenido es claramente de baja calidad o spam
+- La audiencia es mayoritariamente latinoamericana (no española)
+
+Un medio local que además cubre deporte, tecnología o noticias nacionales SÍ es apto.
+
 Responde SOLO con JSON válido, sin texto adicional ni backticks:
 {
   "tematica_real": "descripción breve de la temática principal del sitio",
@@ -480,7 +496,7 @@ Responde SOLO con JSON válido, sin texto adicional ni backticks:
   "apto_linkbuilding": true o false,
   "resumen_ia": "2-3 frases explicando el veredicto desde el análisis de contenido",
   "señales_positivas": ["hasta 3 señales positivas del sitio"],
-  "señales_negativas": ["hasta 3 señales negativas o riesgos"]
+  "señales_negativas": ["hasta 3 señales negativas o riesgos, solo si son relevantes"]
 }`;
 
   const userPrompt = `Proyecto de destino: ${proyecto}${anchor ? '\nAnchor text propuesto: "' + anchor + '"' : ''}
@@ -583,15 +599,21 @@ async function validate() {
 
   const dl = domainName.toLowerCase();
   const ciudadMatch = ciudades.find(c => dl.includes(c));
+  const esLocalPuro = kwLocal.some(k => dl.includes(k)) && !kwSector.some(k => dl.includes(k));
+
+  // Ciudad en dominio: aviso, no rechazo automático. El medio puede ser válido si cubre
+  // deporte, tecnología o noticias de interés general más allá de lo estrictamente local.
   if (ciudadMatch) {
-    rechazado = true;
-    motivos.push({ ok: false, text: 'El dominio contiene el topónimo "' + ciudadMatch + '" — medio local sin encaje temático con el sector' });
-  } else if (kwLocal.some(k => dl.includes(k)) && !kwSector.some(k => dl.includes(k))) {
-    rechazado = true;
-    motivos.push({ ok: false, text: 'El dominio presenta indicadores de medio local/municipal sin relación con el sector' });
+    motivos.push({ ok: true, text: 'Dominio contiene topónimo "' + ciudadMatch + '" — válido si el medio cubre también deporte, tecnología o noticias de interés general' });
+    pendientes.push('Confirmar que el medio no publica EXCLUSIVAMENTE noticias locales de ciudad (ayuntamiento, vecinos, eventos municipales)');
+  } else if (esLocalPuro) {
+    motivos.push({ ok: true, text: 'El dominio presenta indicadores de medio local — revisar si cubre temáticas de interés general' });
+    pendientes.push('Verificar que el medio no se limita a noticias estrictamente locales sin ningún interés para el sector');
   }
 
   // Temática
+  // Válido: deportes, tecnología, noticias de interés general, fintech, apuestas, regulación.
+  // Solo se descarta si el medio no tiene criterio editorial definido o publica de todo sin coherencia.
   const prioritarias = ['deportes','apuestas','fintech','tecnologia','regulacion'];
   let encaje, encajeColor;
   if (prioritarias.includes(tematica)) {
@@ -601,12 +623,13 @@ async function validate() {
     if (rechazado) { encaje = 'DESCARTADO'; encajeColor = 'red'; }
     else {
       encaje = 'PUNTUAL'; encajeColor = 'amber';
-      motivos.push({ ok: true, text: 'Generalista — válido solo con artículo contextualizado sobre juego, deporte o regulación' });
-      pendientes.push('El artículo debe tener contexto directo sobre juego, deporte o regulación');
+      motivos.push({ ok: true, text: 'Medio generalista válido — deporte, tecnología y noticias de interés general tienen encaje suficiente' });
+      pendientes.push('Asegurar que el artículo no trate exclusivamente sobre noticias locales municipales');
     }
   } else {
+    // "Sin criterio temático claro": rechazar por falta de coherencia editorial
     encaje = 'DESCARTADO'; encajeColor = 'red'; rechazado = true;
-    motivos.push({ ok: false, text: 'Temática sin encaje con el sector — descartado por criterio editorial' });
+    motivos.push({ ok: false, text: 'Sin criterio temático definido — publica de todo sin coherencia editorial, descartado' });
   }
 
   pendientes.push('Verificar historial de tráfico en Ahrefs/Semrush — rechazar si caída >30% en 3 meses');
