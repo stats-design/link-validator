@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Validador de Medios SEO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e0f;
+    --bg2: #161618;
+    --bg3: #1d1d20;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #f0f0ee;
+    --muted: #888884;
+    --faint: #444441;
+    --green: #3ddc84;
+    --green-bg: rgba(61,220,132,0.1);
+    --green-border: rgba(61,220,132,0.25);
+    --red: #ff5f57;
+    --red-bg: rgba(255,95,87,0.1);
+    --red-border: rgba(255,95,87,0.25);
+    --amber: #f5a623;
+    --amber-bg: rgba(245,166,35,0.1);
+    --amber-border: rgba(245,166,35,0.25);
+    --blue: #4fa3e0;
+    --blue-bg: rgba(79,163,224,0.1);
+    --radius: 10px;
+    --radius-lg: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* HEADER */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    background: rgba(14,14,15,0.92);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .logo-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+  }
+  .header-meta {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* LAYOUT */
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+  }
+
+  /* HERO */
+  .hero {
+    margin-bottom: 3rem;
+    animation: fadeUp 0.5s ease both;
+  }
+  .hero-label {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .hero h1 {
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  .hero p {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 480px;
+  }
+
+  /* FORM CARD */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.5s 0.1s ease both;
+  }
+  .card-title {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+  }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .full { grid-column: 1 / -1; }
+
+  label {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  label span { color: var(--red); margin-left: 2px; }
+
+  input, select {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg3);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    outline: none;
+    transition: border-color 0.15s;
+    appearance: none;
+  }
+  input::placeholder { color: var(--faint); }
+  input:focus, select:focus { border-color: var(--border2); }
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+  }
+
+  .input-hint { font-size: 11px; color: var(--faint); margin-top: 5px; font-family: 'DM Mono', monospace; }
+
+  /* SUBMIT */
+  .btn-wrap { margin-top: 1.5rem; display: flex; gap: 10px; }
+  .btn-primary {
+    flex: 1;
+    padding: 13px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: -0.01em;
+    background: var(--text);
+    color: var(--bg);
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+  }
+  .btn-primary:hover { opacity: 0.9; }
+  .btn-primary:active { transform: scale(0.99); }
+  .btn-secondary {
+    padding: 13px 20px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .btn-secondary:hover { border-color: var(--border2); color: var(--text); }
+
+  /* ERROR */
+  .error-msg {
+    background: var(--red-bg);
+    border: 1px solid var(--red-border);
+    color: var(--red);
+    font-size: 13px;
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    margin-top: 12px;
+  }
+
+  /* RESULT */
+  .result-card {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    animation: fadeUp 0.35s ease both;
+  }
+  .result-header {
+    padding: 22px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .result-header.valid { background: var(--green-bg); border: 1px solid var(--green-border); border-bottom: none; }
+  .result-header.invalid { background: var(--red-bg); border: 1px solid var(--red-border); border-bottom: none; }
+
+  .verdict-label {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    opacity: 0.7;
+  }
+  .verdict-text {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .verdict-text.valid { color: var(--green); }
+  .verdict-text.invalid { color: var(--red); }
+  .verdict-domain {
+    font-size: 13px;
+    font-family: 'DM Mono', monospace;
+    opacity: 0.5;
+    margin-top: 4px;
+    word-break: break-all;
+  }
+  .verdict-meta { text-align: right; flex-shrink: 0; }
+  .verdict-meta-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .verdict-meta-val { font-size: 13px; font-family: 'DM Mono', monospace; color: var(--text); }
+
+  .result-body {
+    background: var(--bg2);
+    padding: 22px 24px;
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  }
+
+  .badges { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 20px; }
+  .badge {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 11px;
+    border-radius: 6px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.01em;
+  }
+  .badge-green { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+  .badge-red { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+  .badge-amber { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
+  .badge-blue { background: var(--blue-bg); color: var(--blue); border: 1px solid rgba(79,163,224,0.25); }
+  .badge-gray { background: rgba(255,255,255,0.05); color: var(--muted); border: 1px solid var(--border); }
+
+  .section-label {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--faint);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .motivo-list { margin-bottom: 20px; }
+  .motivo {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--text);
+  }
+  .motivo:last-child { border-bottom: none; }
+  .motivo-icon { flex-shrink: 0; margin-top: 1px; font-size: 13px; }
+  .motivo-icon.ok { color: var(--green); }
+  .motivo-icon.fail { color: var(--red); }
+
+  .pending-box {
+    background: var(--amber-bg);
+    border: 1px solid var(--amber-border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-top: 4px;
+  }
+  .pending-title {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--amber);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .pending-item {
+    display: flex;
+    gap: 9px;
+    font-size: 13px;
+    color: var(--amber);
+    margin-bottom: 6px;
+    line-height: 1.5;
+    opacity: 0.9;
+  }
+  .pending-item:last-child { margin-bottom: 0; }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.4s 0.05s ease both;
+  }
+  .stat-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+  }
+  .stat-label { font-size: 11px; color: var(--muted); margin-bottom: 6px; font-family: 'DM Mono', monospace; letter-spacing: 0.05em; }
+  .stat-val { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; }
+
+  /* HISTORY */
+  .hist-section { margin-top: 2rem; animation: fadeUp 0.4s ease both; }
+  .hist-title {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--faint);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .hist-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 6px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .hist-item:hover { border-color: var(--border2); }
+  .hist-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .hist-domain { flex: 1; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: 'DM Mono', monospace; color: var(--text); }
+  .hist-verdict {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 5px;
+    font-family: 'DM Mono', monospace;
+    flex-shrink: 0;
+  }
+  .hist-ts { font-size: 11px; color: var(--faint); flex-shrink: 0; font-family: 'DM Mono', monospace; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 560px) {
+    .grid2 { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 24px; }
+    .stats-bar { grid-template-columns: 1fr 1fr; }
+    .stats-bar .stat-card:last-child { grid-column: 1/-1; }
+    header { padding: 0 1rem; }
+    .container { padding: 2rem 1rem 3rem; }
+    .result-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .verdict-meta { text-align: left; }
+  }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: var(--border); margin: 1.75rem 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-dot"></div>
+    Validador de Medios
+  </div>
+  <div class="header-meta" id="header-date"></div>
+</header>
+
+<div class="container">
+
+  <div class="hero">
+    <div class="hero-label">Link Building · Sector Apuestas &amp; Casinos España</div>
+    <h1>Dictamen de medios<br>al instante</h1>
+    <p>Introduce las métricas del dominio y obtén un veredicto basado en los criterios SEO y temáticos aprobados.</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-bar" id="stats-bar" style="display:none">
+    <div class="stat-card">
+      <div class="stat-label">Analizados</div>
+      <div class="stat-val" id="s-total">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Validados</div>
+      <div class="stat-val" style="color:var(--green)" id="s-ok">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Rechazados</div>
+      <div class="stat-val" style="color:var(--red)" id="s-ko">0</div>
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div class="card" id="form-card">
+    <div class="card-title">Datos del medio</div>
+    <div class="grid2">
+      <div class="full">
+        <label>URL del dominio <span>*</span></label>
+        <input id="f-url" placeholder="https://www.ejemplo.es" autocomplete="off" />
+      </div>
+      <div>
+        <label>Domain Rating — DR <span>*</span></label>
+        <input id="f-dr" type="number" min="0" max="100" placeholder="Ej: 47" />
+        <div class="input-hint">Mínimo requerido: 25</div>
+      </div>
+      <div>
+        <label>Tráfico mensual <span>*</span></label>
+        <input id="f-traffic" type="number" min="0" placeholder="Ej: 43000" />
+        <div class="input-hint">Número exacto de visitas · mínimo 1.000</div>
+      </div>
+      <div>
+        <label>Spam Score Moz (%)</label>
+        <input id="f-spam" type="number" min="0" max="100" step="0.1" placeholder="Ej: 2" />
+        <div class="input-hint">Máximo aceptado: 5%</div>
+      </div>
+      <div>
+        <label>Temática del medio</label>
+        <select id="f-tematica">
+          <option value="deportes">Deportes</option>
+          <option value="apuestas">Apuestas / Juego online</option>
+          <option value="fintech">Pagos digitales / Fintech</option>
+          <option value="tecnologia">Tecnología</option>
+          <option value="regulacion">Regulación del juego</option>
+          <option value="generalista" selected>Generalista</option>
+          <option value="otro">Sin criterio temático claro</option>
+        </select>
+      </div>
+      <div>
+        <label>Proyecto de destino</label>
+        <select id="f-proyecto">
+          <option>WebApuestas</option>
+          <option>WebCasinos</option>
+          <option>Ambos</option>
+        </select>
+      </div>
+      <div>
+        <label>Precio acordado (€)</label>
+        <input id="f-precio" type="number" placeholder="Ej: 154" />
+      </div>
+      <div>
+        <label>Anchor text propuesto</label>
+        <input id="f-anchor" placeholder="Ej: casinos legales en España" />
+      </div>
+    </div>
+    <div id="form-error" style="display:none" class="error-msg"></div>
+    <div class="btn-wrap">
+      <button class="btn-primary" onclick="validate()">Analizar dominio →</button>
+      <button class="btn-secondary" onclick="clearForm()">Limpiar</button>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="result-wrap" style="display:none"></div>
+
+  <!-- HISTORY -->
+  <div id="hist-wrap" style="display:none"></div>
+
+</div>
+
+<script>
+  // Header date
+  document.getElementById('header-date').textContent = new Date().toLocaleDateString('es-ES', {day:'2-digit',month:'short',year:'numeric'});
+
+  let history = [];
+
+  function getTLD(url) {
+    try {
+      const h = new URL(url.startsWith('http') ? url : 'https://'+url).hostname;
+      const parts = h.split('.');
+      return '.' + parts[parts.length - 1];
+    } catch { return ''; }
+  }
+
+  function now() {
+    return new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function clearForm() {
+    ['f-url','f-dr','f-traffic','f-spam','f-precio','f-anchor'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+    document.getElementById('f-tematica').value = 'generalista';
+    document.getElementById('f-proyecto').value = 'WebApuestas';
+    document.getElementById('form-error').style.display = 'none';
+    document.getElementById('result-wrap').style.display = 'none';
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('form-error');
+    el.textContent = msg;
+    el.style.display = 'block';
+  }
+
+  function validate() {
+    document.getElementById('form-error').style.display = 'none';
+
+    const url      = document.getElementById('f-url').value.trim();
+    const drRaw    = document.getElementById('f-dr').value;
+    const trfRaw   = document.getElementById('f-traffic').value;
+    const spamRaw  = document.getElementById('f-spam').value;
+    const tematica = document.getElementById('f-tematica').value;
+    const proyecto = document.getElementById('f-proyecto').value;
+    const precio   = document.getElementById('f-precio').value || null;
+    const anchor   = document.getElementById('f-anchor').value.trim() || null;
+
+    if (!url) return showError('Introduce la URL del dominio.');
+    if (drRaw === '') return showError('Introduce el Domain Rating (DR).');
+    if (trfRaw === '') return showError('Introduce el tráfico mensual estimado.');
+
+    const dr      = parseFloat(drRaw);
+    const traffic = parseFloat(trfRaw);
+    const spam    = spamRaw !== '' ? parseFloat(spamRaw) : null;
+    const tld     = getTLD(url);
+
+    const motivos   = [];
+    const pendientes = [];
+    let rechazado   = false;
+
+    // — TLD
+    if (tld !== '.es' && tld !== '.com') {
+      rechazado = true;
+      motivos.push({ ok: false, text: 'TLD ' + tld + ' no aceptado — solo .es y .com son válidos' });
+    } else {
+      motivos.push({ ok: true, text: 'TLD ' + tld + ' válido para el mercado español' });
+      if (tld === '.com') pendientes.push('Verificar con Similarweb que el tráfico es mayoritariamente español');
+    }
+
+    // — DR
+    if (dr < 25) {
+      rechazado = true;
+      motivos.push({ ok: false, text: 'DR ' + dr + ' por debajo del mínimo requerido (≥25)' });
+    } else {
+      motivos.push({ ok: true, text: 'DR ' + dr + ' cumple el umbral mínimo de 25' });
+    }
+
+    // — Tráfico
+    if (traffic < 1000) {
+      rechazado = true;
+      motivos.push({ ok: false, text: 'Tráfico de ' + traffic.toLocaleString('es-ES') + ' visitas/mes por debajo del mínimo requerido (1.000)' });
+    } else {
+      const trafficLabel = traffic >= 1000 ? (traffic / 1000).toLocaleString('es-ES', {maximumFractionDigits:1}) + 'K' : traffic;
+      motivos.push({ ok: true, text: 'Tráfico de ' + trafficLabel + ' visitas/mes cumple el mínimo requerido' });
+    }
+
+    // — Spam Score
+    if (spam !== null) {
+      if (spam >= 5) {
+        rechazado = true;
+        motivos.push({ ok: false, text: 'Spam Score ' + spam + '% supera el máximo permitido (<5% Moz)' });
+      } else {
+        motivos.push({ ok: true, text: 'Spam Score ' + spam + '% dentro del rango aceptable' });
+      }
+    } else {
+      pendientes.push('Verificar Spam Score en Moz — debe ser inferior al 5%');
+    }
+
+    // — Temática
+    const prioritarias = ['deportes','apuestas','fintech','tecnologia','regulacion'];
+    let encaje, encajeColor;
+    if (prioritarias.includes(tematica)) {
+      encaje = 'PRIORITARIO'; encajeColor = 'green';
+      motivos.push({ ok: true, text: 'Temática con encaje prioritario para el sector (apuestas/deporte/fintech)' });
+    } else if (tematica === 'generalista') {
+      encaje = 'PUNTUAL'; encajeColor = 'amber';
+      motivos.push({ ok: true, text: 'Generalista — válido solo con artículo contextualizado en juego, deporte o regulación' });
+      if (!rechazado) pendientes.push('El artículo debe tener contexto directo sobre juego, deporte o regulación');
+    } else {
+      encaje = 'DESCARTADO'; encajeColor = 'red';
+      rechazado = true;
+      motivos.push({ ok: false, text: 'Temática sin encaje con el sector — descartado por criterio editorial' });
+    }
+
+    // — Historial tráfico
+    pendientes.push('Verificar historial de tráfico en Ahrefs/Semrush — rechazar si hay caída >30% en 3 meses');
+
+    // — Riesgo
+    let riesgo, riesgoColor;
+    if (rechazado) { riesgo = 'ALTO'; riesgoColor = 'red'; }
+    else if (pendientes.length >= 3 || tld === '.com' || spam === null) { riesgo = 'MEDIO'; riesgoColor = 'amber'; }
+    else { riesgo = 'BAJO'; riesgoColor = 'green'; }
+
+    const veredicto = rechazado ? 'RECHAZADO' : 'VALIDADO';
+
+    const entry = { url, dr, traffic, spam, tematica, proyecto, precio, anchor, encaje, encajeColor, riesgo, riesgoColor, motivos, pendientes, veredicto, ts: now() };
+    history.unshift(entry);
+    updateStats();
+    renderResult(entry);
+    renderHistory();
+
+    document.getElementById('result-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function updateStats() {
+    document.getElementById('stats-bar').style.display = 'grid';
+    document.getElementById('s-total').textContent = history.length;
+    document.getElementById('s-ok').textContent = history.filter(h => h.veredicto === 'VALIDADO').length;
+    document.getElementById('s-ko').textContent = history.filter(h => h.veredicto === 'RECHAZADO').length;
+  }
+
+  function renderResult(e) {
+    const sc = e.veredicto === 'VALIDADO';
+    const headerClass = sc ? 'valid' : 'invalid';
+    const icon = sc ? '✓' : '✗';
+    const verdictClass = sc ? 'valid' : 'invalid';
+
+    // badges
+    const encajeBadge = `<span class="badge badge-${e.encajeColor}">Encaje: ${e.encaje}</span>`;
+    const riesgoBadge = `<span class="badge badge-${e.riesgoColor}">Riesgo: ${e.riesgo}</span>`;
+    const drBadge = `<span class="badge ${e.dr >= 25 ? 'badge-green' : 'badge-red'}">DR ${e.dr}</span>`;
+    const tldBadge = `<span class="badge ${getTLD(e.url) === '.es' || getTLD(e.url) === '.com' ? 'badge-green' : 'badge-red'}">${getTLD(e.url).toUpperCase()}</span>`;
+    const proyBadge = `<span class="badge badge-blue">${e.proyecto}</span>`;
+    const precioBadge = e.precio ? `<span class="badge badge-gray">${e.precio} €</span>` : '';
+    const anchorBadge = e.anchor ? `<span class="badge badge-gray">"${e.anchor}"</span>` : '';
+
+    const motivosHTML = e.motivos.map(m =>
+      `<div class="motivo">
+        <span class="motivo-icon ${m.ok ? 'ok' : 'fail'}">${m.ok ? '✓' : '✗'}</span>
+        <span>${m.text}</span>
+      </div>`
+    ).join('');
+
+    const pendientesHTML = e.pendientes.length ? `
+      <div class="pending-box">
+        <div class="pending-title">Verificar antes de contratar</div>
+        ${e.pendientes.map(v => `<div class="pending-item"><span style="flex-shrink:0">·</span>${v}</div>`).join('')}
+      </div>` : '';
+
+    const metaHTML = `
+      <div class="verdict-meta">
+        <div class="verdict-meta-label">Tráfico</div>
+        <div class="verdict-meta-val">${e.traffic >= 1000 ? (e.traffic/1000).toLocaleString('es-ES',{maximumFractionDigits:1})+'K' : e.traffic} vis/mes</div>
+        ${e.spam !== null ? `<div class="verdict-meta-label" style="margin-top:8px">Spam Score</div><div class="verdict-meta-val">${e.spam}%</div>` : ''}
+      </div>`;
+
+    const html = `
+      <div class="result-card">
+        <div class="result-header ${headerClass}">
+          <div>
+            <div class="verdict-label">Dictamen · ${e.ts}</div>
+            <div class="verdict-text ${verdictClass}">${icon} ${sc ? 'Validado' : 'Rechazado'}</div>
+            <div class="verdict-domain">${e.url}</div>
+          </div>
+          ${metaHTML}
+        </div>
+        <div class="result-body">
+          <div class="badges">${encajeBadge}${riesgoBadge}${drBadge}${tldBadge}${proyBadge}${precioBadge}${anchorBadge}</div>
+          <div class="section-label">Criterios evaluados</div>
+          <div class="motivo-list">${motivosHTML}</div>
+          ${pendientesHTML}
+        </div>
+      </div>`;
+
+    const wrap = document.getElementById('result-wrap');
+    wrap.style.display = 'block';
+    wrap.innerHTML = html;
+  }
+
+  function renderHistory() {
+    if (history.length < 2) { document.getElementById('hist-wrap').style.display = 'none'; return; }
+    const items = history.slice(1).map((h, i) => {
+      const sc = h.veredicto === 'VALIDADO';
+      return `<div class="hist-item" onclick="loadEntry(${i+1})">
+        <div class="hist-dot" style="background:${sc ? 'var(--green)' : 'var(--red)'}"></div>
+        <div class="hist-domain">${h.url}</div>
+        <span class="hist-verdict" style="background:${sc ? 'var(--green-bg)' : 'var(--red-bg)'};color:${sc ? 'var(--green)' : 'var(--red)'};">${h.veredicto}</span>
+        <div class="hist-ts">${h.ts}</div>
+      </div>`;
+    }).join('');
+
+    const wrap = document.getElementById('hist-wrap');
+    wrap.style.display = 'block';
+    wrap.innerHTML = `<div class="hist-section"><div class="hist-title">Historial de sesión</div>${items}</div>`;
+  }
+
+  function loadEntry(i) {
+    renderResult(history[i]);
+    document.getElementById('result-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Enter key on inputs
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && e.target.tagName === 'INPUT') validate();
+  });
+</script>
+</body>
+</html>
