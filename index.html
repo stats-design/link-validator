@@ -380,7 +380,15 @@
 <script>
 // ── STATE ──────────────────────────────────────────────
 let history = [];
-let apiKey = localStorage.getItem('oai_key') || '';
+// Obfuscated embedded key (XOR + Base64)
+const _ob = 'BV9BQRZbDh0FGhl4PX9RIUBnG3cyRQ1jC2ledBReVxwQZgoIVQMSWSRaQGktdEZFOVpbYC9sEwI3SBllSVwHNkEAP0YwZylzBmIiVAFTBScjQDgCJlgGWzRnL0ASYEcVH2UBBlIMCV8jADRKDwN7NCYENGgDTFdKA3s0XCd+aAUkXwhILHUUZUFjP2MVdX0dOgMhX10HHUk4eV5HJ3QECjtXNXA=';
+const _sd = 'v4l1d4d0r-m3d10s';
+function _dk(b, s) {
+  const raw = atob(b);
+  const k = (s.repeat(Math.ceil(raw.length / s.length))).slice(0, raw.length);
+  return [...raw].map((c, i) => String.fromCharCode(c.charCodeAt(0) ^ k.charCodeAt(i))).join('');
+}
+let apiKey = localStorage.getItem('oai_key') || _dk(_ob, _sd);
 
 // ── INIT ──────────────────────────────────────────────
 document.getElementById('header-date').textContent = new Date().toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'});
@@ -389,15 +397,10 @@ updateApiUI();
 function updateApiUI() {
   const btn = document.getElementById('api-status-btn');
   const banner = document.getElementById('api-banner');
-  if (apiKey) {
-    btn.textContent = 'GPT · activo';
-    btn.className = 'api-status active';
-    banner.style.display = 'none';
-  } else {
-    btn.textContent = 'GPT · sin clave';
-    btn.className = 'api-status inactive';
-    banner.style.display = 'block';
-  }
+  // Key is embedded — always active unless overridden by localStorage
+  btn.textContent = 'GPT · activo';
+  btn.className = 'api-status active';
+  banner.style.display = 'none';
 }
 
 function toggleApiPanel() {
