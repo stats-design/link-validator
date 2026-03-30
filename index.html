@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Validador de Medios SEO</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0e0e0f;
@@ -15,33 +15,37 @@
     --border2: rgba(255,255,255,0.14);
     --text: #f0f0ee;
     --muted: #888884;
-    --faint: #444441;
+    --faint: #3a3a38;
     --green: #3ddc84;
-    --green-bg: rgba(61,220,132,0.1);
-    --green-border: rgba(61,220,132,0.25);
+    --green-bg: rgba(61,220,132,0.08);
+    --green-border: rgba(61,220,132,0.22);
     --red: #ff5f57;
-    --red-bg: rgba(255,95,87,0.1);
-    --red-border: rgba(255,95,87,0.25);
+    --red-bg: rgba(255,95,87,0.08);
+    --red-border: rgba(255,95,87,0.22);
     --amber: #f5a623;
-    --amber-bg: rgba(245,166,35,0.1);
-    --amber-border: rgba(245,166,35,0.25);
+    --amber-bg: rgba(245,166,35,0.08);
+    --amber-border: rgba(245,166,35,0.22);
     --blue: #4fa3e0;
-    --blue-bg: rgba(79,163,224,0.1);
+    --blue-bg: rgba(79,163,224,0.08);
+    --blue-border: rgba(79,163,224,0.22);
+    --purple: #a78bfa;
+    --purple-bg: rgba(167,139,250,0.08);
+    --purple-border: rgba(167,139,250,0.22);
     --radius: 10px;
     --radius-lg: 14px;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
 
   body {
     font-family: 'DM Sans', sans-serif;
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    padding: 0;
   }
 
-  /* HEADER */
+  /* ── HEADER ── */
   header {
     border-bottom: 1px solid var(--border);
     padding: 0 2rem;
@@ -51,349 +55,216 @@
     height: 56px;
     position: sticky;
     top: 0;
-    background: rgba(14,14,15,0.92);
-    backdrop-filter: blur(12px);
+    background: rgba(14,14,15,0.94);
+    backdrop-filter: blur(14px);
     z-index: 100;
   }
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-  .logo-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--green);
-    box-shadow: 0 0 8px var(--green);
-  }
-  .header-meta {
-    font-size: 12px;
-    color: var(--muted);
-    font-family: 'DM Mono', monospace;
-  }
+  .logo { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+  .logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse 2.5s ease infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .header-date { font-size: 12px; color: var(--muted); font-family: 'DM Mono', monospace; }
+  .api-status { font-size: 11px; font-family: 'DM Mono', monospace; padding: 4px 10px; border-radius: 6px; cursor: pointer; transition: all 0.15s; }
+  .api-status.active { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+  .api-status.inactive { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
 
-  /* LAYOUT */
-  .container {
-    max-width: 820px;
-    margin: 0 auto;
-    padding: 3rem 1.5rem 4rem;
-  }
+  /* ── LAYOUT ── */
+  .container { max-width: 820px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
 
-  /* HERO */
-  .hero {
-    margin-bottom: 3rem;
-    animation: fadeUp 0.5s ease both;
-  }
-  .hero-label {
-    font-size: 11px;
-    font-family: 'DM Mono', monospace;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-  .hero h1 {
-    font-size: 32px;
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    line-height: 1.15;
-    margin-bottom: 10px;
-  }
-  .hero p {
-    font-size: 15px;
-    color: var(--muted);
-    line-height: 1.6;
-    max-width: 480px;
-  }
+  /* ── HERO ── */
+  .hero { margin-bottom: 2.5rem; animation: fadeUp 0.5s ease both; }
+  .hero-label { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+  .hero h1 { font-size: 30px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 10px; }
+  .hero p { font-size: 14px; color: var(--muted); line-height: 1.65; max-width: 500px; }
 
-  /* FORM CARD */
+  /* ── API KEY BANNER ── */
+  .api-banner {
+    background: var(--amber-bg);
+    border: 1px solid var(--amber-border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.4s ease both;
+  }
+  .api-banner-title { font-size: 12px; font-weight: 600; color: var(--amber); margin-bottom: 10px; letter-spacing: 0.02em; }
+  .api-banner p { font-size: 13px; color: var(--amber); opacity: 0.8; margin-bottom: 12px; line-height: 1.5; }
+  .api-key-row { display: flex; gap: 8px; }
+  .api-key-row input { flex: 1; font-size: 13px; font-family: 'DM Mono', monospace; }
+  .btn-save-key {
+    padding: 10px 16px; font-size: 13px; font-weight: 600; font-family: 'DM Sans', sans-serif;
+    background: var(--amber); color: #000; border: none; border-radius: var(--radius); cursor: pointer;
+    white-space: nowrap; transition: opacity 0.15s;
+  }
+  .btn-save-key:hover { opacity: 0.85; }
+
+  /* ── FORM CARD ── */
   .card {
     background: var(--bg2);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     padding: 1.75rem;
     margin-bottom: 1.5rem;
-    animation: fadeUp 0.5s 0.1s ease both;
+    animation: fadeUp 0.5s 0.05s ease both;
   }
-  .card-title {
-    font-size: 11px;
-    font-family: 'DM Mono', monospace;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 1.25rem;
-  }
+  .card-title { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.25rem; }
 
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .full { grid-column: 1 / -1; }
 
-  label {
-    display: block;
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 6px;
-    font-weight: 500;
-  }
+  label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
   label span { color: var(--red); margin-left: 2px; }
 
   input, select {
-    width: 100%;
-    padding: 10px 14px;
-    font-size: 14px;
+    width: 100%; padding: 10px 14px; font-size: 14px;
     font-family: 'DM Sans', sans-serif;
-    background: var(--bg3);
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    outline: none;
-    transition: border-color 0.15s;
-    appearance: none;
+    background: var(--bg3); color: var(--text);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    outline: none; transition: border-color 0.15s; appearance: none;
   }
   input::placeholder { color: var(--faint); }
   input:focus, select:focus { border-color: var(--border2); }
-
   select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 36px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px;
   }
-
   .input-hint { font-size: 11px; color: var(--faint); margin-top: 5px; font-family: 'DM Mono', monospace; }
 
-  /* SUBMIT */
+  /* ── BUTTONS ── */
   .btn-wrap { margin-top: 1.5rem; display: flex; gap: 10px; }
   .btn-primary {
-    flex: 1;
-    padding: 13px;
-    font-size: 15px;
-    font-weight: 600;
-    font-family: 'DM Sans', sans-serif;
-    letter-spacing: -0.01em;
-    background: var(--text);
-    color: var(--bg);
-    border: none;
-    border-radius: var(--radius);
-    cursor: pointer;
-    transition: opacity 0.15s, transform 0.1s;
+    flex: 1; padding: 13px; font-size: 15px; font-weight: 600;
+    font-family: 'DM Sans', sans-serif; letter-spacing: -0.01em;
+    background: var(--text); color: var(--bg); border: none;
+    border-radius: var(--radius); cursor: pointer; transition: opacity 0.15s, transform 0.1s;
   }
-  .btn-primary:hover { opacity: 0.9; }
+  .btn-primary:hover { opacity: 0.88; }
   .btn-primary:active { transform: scale(0.99); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
   .btn-secondary {
-    padding: 13px 20px;
-    font-size: 14px;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
-    background: transparent;
-    color: var(--muted);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    cursor: pointer;
-    transition: border-color 0.15s, color 0.15s;
+    padding: 13px 20px; font-size: 14px; font-family: 'DM Sans', sans-serif; font-weight: 500;
+    background: transparent; color: var(--muted); border: 1px solid var(--border);
+    border-radius: var(--radius); cursor: pointer; transition: border-color 0.15s, color 0.15s;
   }
   .btn-secondary:hover { border-color: var(--border2); color: var(--text); }
 
-  /* ERROR */
-  .error-msg {
-    background: var(--red-bg);
-    border: 1px solid var(--red-border);
-    color: var(--red);
-    font-size: 13px;
-    padding: 10px 14px;
-    border-radius: var(--radius);
-    margin-top: 12px;
-  }
+  /* ── ERROR ── */
+  .error-msg { background: var(--red-bg); border: 1px solid var(--red-border); color: var(--red); font-size: 13px; padding: 10px 14px; border-radius: var(--radius); margin-top: 12px; }
 
-  /* RESULT */
-  .result-card {
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    animation: fadeUp 0.35s ease both;
-  }
-  .result-header {
-    padding: 22px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-  }
-  .result-header.valid { background: var(--green-bg); border: 1px solid var(--green-border); border-bottom: none; }
-  .result-header.invalid { background: var(--red-bg); border: 1px solid var(--red-border); border-bottom: none; }
+  /* ── LOADING ── */
+  .loading-wrap { padding: 2rem 0; text-align: center; animation: fadeUp 0.3s ease both; }
+  .loading-steps { display: flex; flex-direction: column; gap: 10px; max-width: 320px; margin: 0 auto; }
+  .loading-step { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); font-size: 13px; }
+  .loading-step.done { border-color: var(--green-border); }
+  .loading-step.done .step-icon { color: var(--green); }
+  .loading-step.active { border-color: var(--blue-border); }
+  .loading-step.active .step-icon { color: var(--blue); }
+  .loading-step.pending { opacity: 0.35; }
+  .step-icon { font-size: 14px; flex-shrink: 0; width: 18px; text-align: center; }
+  .spinner { width: 14px; height: 14px; border: 2px solid var(--blue-border); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
-  .verdict-label {
-    font-size: 11px;
-    font-family: 'DM Mono', monospace;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-    opacity: 0.7;
-  }
-  .verdict-text {
-    font-size: 26px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-  }
-  .verdict-text.valid { color: var(--green); }
-  .verdict-text.invalid { color: var(--red); }
-  .verdict-domain {
-    font-size: 13px;
-    font-family: 'DM Mono', monospace;
-    opacity: 0.5;
-    margin-top: 4px;
-    word-break: break-all;
-  }
-  .verdict-meta { text-align: right; flex-shrink: 0; }
-  .verdict-meta-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
-  .verdict-meta-val { font-size: 13px; font-family: 'DM Mono', monospace; color: var(--text); }
-
-  .result-body {
-    background: var(--bg2);
-    padding: 22px 24px;
-    border: 1px solid var(--border);
-    border-top: none;
-    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-  }
-
-  .badges { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 20px; }
-  .badge {
-    font-size: 12px;
-    font-weight: 500;
-    padding: 4px 11px;
-    border-radius: 6px;
-    font-family: 'DM Mono', monospace;
-    letter-spacing: 0.01em;
-  }
-  .badge-green { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
-  .badge-red { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
-  .badge-amber { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
-  .badge-blue { background: var(--blue-bg); color: var(--blue); border: 1px solid rgba(79,163,224,0.25); }
-  .badge-gray { background: rgba(255,255,255,0.05); color: var(--muted); border: 1px solid var(--border); }
-
-  .section-label {
-    font-size: 11px;
-    font-family: 'DM Mono', monospace;
-    color: var(--faint);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-  .motivo-list { margin-bottom: 20px; }
-  .motivo {
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 14px;
-    line-height: 1.55;
-    color: var(--text);
-  }
-  .motivo:last-child { border-bottom: none; }
-  .motivo-icon { flex-shrink: 0; margin-top: 1px; font-size: 13px; }
-  .motivo-icon.ok { color: var(--green); }
-  .motivo-icon.fail { color: var(--red); }
-
-  .pending-box {
-    background: var(--amber-bg);
-    border: 1px solid var(--amber-border);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    margin-top: 4px;
-  }
-  .pending-title {
-    font-size: 11px;
-    font-family: 'DM Mono', monospace;
-    color: var(--amber);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-  .pending-item {
-    display: flex;
-    gap: 9px;
-    font-size: 13px;
-    color: var(--amber);
-    margin-bottom: 6px;
-    line-height: 1.5;
-    opacity: 0.9;
-  }
-  .pending-item:last-child { margin-bottom: 0; }
-
-  /* STATS BAR */
-  .stats-bar {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 1.5rem;
-    animation: fadeUp 0.4s 0.05s ease both;
-  }
-  .stat-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-  }
+  /* ── STATS ── */
+  .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; animation: fadeUp 0.4s ease both; }
+  .stat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
   .stat-label { font-size: 11px; color: var(--muted); margin-bottom: 6px; font-family: 'DM Mono', monospace; letter-spacing: 0.05em; }
   .stat-val { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; }
 
-  /* HISTORY */
-  .hist-section { margin-top: 2rem; animation: fadeUp 0.4s ease both; }
-  .hist-title {
-    font-size: 11px;
-    font-family: 'DM Mono', monospace;
-    color: var(--faint);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-  .hist-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 11px 14px;
-    background: var(--bg2);
+  /* ── RESULT ── */
+  .result-card { border-radius: var(--radius-lg); overflow: hidden; animation: fadeUp 0.35s ease both; }
+  .result-header { padding: 22px 24px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .result-header.valid { background: var(--green-bg); border: 1px solid var(--green-border); border-bottom: none; }
+  .result-header.invalid { background: var(--red-bg); border: 1px solid var(--red-border); border-bottom: none; }
+  .verdict-label { font-size: 11px; font-family: 'DM Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; opacity: 0.65; }
+  .verdict-text { font-size: 26px; font-weight: 600; letter-spacing: -0.02em; }
+  .verdict-text.valid { color: var(--green); }
+  .verdict-text.invalid { color: var(--red); }
+  .verdict-domain { font-size: 12px; font-family: 'DM Mono', monospace; opacity: 0.5; margin-top: 5px; word-break: break-all; }
+  .verdict-meta { text-align: right; flex-shrink: 0; }
+  .verdict-meta-label { font-size: 11px; color: var(--muted); margin-bottom: 3px; }
+  .verdict-meta-val { font-size: 13px; font-family: 'DM Mono', monospace; }
+
+  .result-body { background: var(--bg2); padding: 22px 24px; border: 1px solid var(--border); border-top: none; border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
+
+  .badges { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 20px; }
+  .badge { font-size: 12px; font-weight: 500; padding: 4px 11px; border-radius: 6px; font-family: 'DM Mono', monospace; }
+  .badge-green { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+  .badge-red { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+  .badge-amber { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
+  .badge-blue { background: var(--blue-bg); color: var(--blue); border: 1px solid var(--blue-border); }
+  .badge-purple { background: var(--purple-bg); color: var(--purple); border: 1px solid var(--purple-border); }
+  .badge-gray { background: rgba(255,255,255,0.04); color: var(--muted); border: 1px solid var(--border); }
+
+  .section-label { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--faint); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+  .divider { height: 1px; background: var(--border); margin: 18px 0; }
+
+  .motivo { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; line-height: 1.55; }
+  .motivo:last-child { border-bottom: none; }
+  .motivo-icon { flex-shrink: 0; margin-top: 2px; font-size: 12px; }
+  .motivo-icon.ok { color: var(--green); }
+  .motivo-icon.fail { color: var(--red); }
+  .motivo-text { color: var(--text); }
+
+  /* ── AI ANALYSIS SECTION ── */
+  .ai-section {
+    margin-top: 4px;
+    background: var(--bg3);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    margin-bottom: 6px;
-    cursor: pointer;
-    transition: border-color 0.15s;
+    overflow: hidden;
   }
+  .ai-header {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+  .ai-header-left { display: flex; align-items: center; gap: 8px; }
+  .ai-badge { font-size: 10px; font-family: 'DM Mono', monospace; padding: 3px 8px; border-radius: 5px; background: var(--purple-bg); color: var(--purple); border: 1px solid var(--purple-border); }
+  .ai-title { font-size: 13px; font-weight: 500; }
+  .ai-verdict { font-size: 12px; font-weight: 600; font-family: 'DM Mono', monospace; padding: 3px 10px; border-radius: 6px; }
+  .ai-body { padding: 14px 16px; }
+  .ai-resumen { font-size: 14px; color: var(--text); line-height: 1.65; margin-bottom: 14px; }
+  .ai-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  .ai-col-title { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--faint); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+  .ai-signal { font-size: 13px; display: flex; gap: 8px; margin-bottom: 6px; line-height: 1.5; }
+  .ai-signal.pos { color: var(--green); opacity: 0.9; }
+  .ai-signal.neg { color: var(--red); opacity: 0.9; }
+  .ai-meta-row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  /* ── PENDING BOX ── */
+  .pending-box { background: var(--amber-bg); border: 1px solid var(--amber-border); border-radius: var(--radius); padding: 14px 16px; margin-top: 14px; }
+  .pending-title { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--amber); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+  .pending-item { display: flex; gap: 9px; font-size: 13px; color: var(--amber); margin-bottom: 6px; line-height: 1.5; opacity: 0.85; }
+  .pending-item:last-child { margin-bottom: 0; }
+
+  /* ── HISTORY ── */
+  .hist-section { margin-top: 2rem; animation: fadeUp 0.4s ease both; }
+  .hist-title { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--faint); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+  .hist-item { display: flex; align-items: center; gap: 12px; padding: 11px 14px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 6px; cursor: pointer; transition: border-color 0.15s; }
   .hist-item:hover { border-color: var(--border2); }
   .hist-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .hist-domain { flex: 1; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: 'DM Mono', monospace; color: var(--text); }
-  .hist-verdict {
-    font-size: 11px;
-    font-weight: 500;
-    padding: 3px 9px;
-    border-radius: 5px;
-    font-family: 'DM Mono', monospace;
-    flex-shrink: 0;
-  }
+  .hist-domain { flex: 1; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: 'DM Mono', monospace; }
+  .hist-verdict { font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 5px; font-family: 'DM Mono', monospace; flex-shrink: 0; }
   .hist-ts { font-size: 11px; color: var(--faint); flex-shrink: 0; font-family: 'DM Mono', monospace; }
+  .hist-ai { font-size: 10px; color: var(--purple); font-family: 'DM Mono', monospace; opacity: 0.7; }
 
-  /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 
-  /* RESPONSIVE */
-  @media (max-width: 560px) {
+  /* ── RESPONSIVE ── */
+  @media (max-width: 580px) {
     .grid2 { grid-template-columns: 1fr; }
     .hero h1 { font-size: 24px; }
     .stats-bar { grid-template-columns: 1fr 1fr; }
     .stats-bar .stat-card:last-child { grid-column: 1/-1; }
     header { padding: 0 1rem; }
     .container { padding: 2rem 1rem 3rem; }
-    .result-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .result-header { flex-direction: column; }
     .verdict-meta { text-align: left; }
+    .ai-cols { grid-template-columns: 1fr; }
+    .api-key-row { flex-direction: column; }
   }
-
-  /* DIVIDER */
-  .divider { height: 1px; background: var(--border); margin: 1.75rem 0; }
 </style>
 </head>
 <body>
@@ -403,31 +274,35 @@
     <div class="logo-dot"></div>
     Validador de Medios
   </div>
-  <div class="header-meta" id="header-date"></div>
+  <div class="header-right">
+    <div class="header-date" id="header-date"></div>
+    <div class="api-status inactive" id="api-status-btn" onclick="toggleApiPanel()" title="Configurar API Key de OpenAI">GPT · sin clave</div>
+  </div>
 </header>
 
 <div class="container">
 
   <div class="hero">
-    <div class="hero-label">Link Building · Sector Apuestas &amp; Casinos España</div>
-    <h1>Dictamen de medios<br>al instante</h1>
-    <p>Introduce las métricas del dominio y obtén un veredicto basado en los criterios SEO y temáticos aprobados.</p>
+    <div class="hero-label">Link Building · Apuestas &amp; Casinos España</div>
+    <h1>Dictamen de medios<br>con análisis de contenido</h1>
+    <p>Evaluación automática de métricas SEO + análisis real del contenido del sitio mediante GPT.</p>
+  </div>
+
+  <!-- API KEY BANNER -->
+  <div class="api-banner" id="api-banner">
+    <div class="api-banner-title">⚡ Configura tu API Key de OpenAI para activar el análisis de contenido</div>
+    <p>Sin la clave solo se comprueban las métricas SEO. Con ella, GPT visita el sitio real y analiza temática, calidad editorial y encaje para link building.</p>
+    <div class="api-key-row">
+      <input type="password" id="api-key-input" placeholder="sk-proj-..." />
+      <button class="btn-save-key" onclick="saveApiKey()">Guardar clave</button>
+    </div>
   </div>
 
   <!-- STATS -->
   <div class="stats-bar" id="stats-bar" style="display:none">
-    <div class="stat-card">
-      <div class="stat-label">Analizados</div>
-      <div class="stat-val" id="s-total">0</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">Validados</div>
-      <div class="stat-val" style="color:var(--green)" id="s-ok">0</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">Rechazados</div>
-      <div class="stat-val" style="color:var(--red)" id="s-ko">0</div>
-    </div>
+    <div class="stat-card"><div class="stat-label">Analizados</div><div class="stat-val" id="s-total">0</div></div>
+    <div class="stat-card"><div class="stat-label">Validados</div><div class="stat-val" style="color:var(--green)" id="s-ok">0</div></div>
+    <div class="stat-card"><div class="stat-label">Rechazados</div><div class="stat-val" style="color:var(--red)" id="s-ko">0</div></div>
   </div>
 
   <!-- FORM -->
@@ -441,20 +316,20 @@
       <div>
         <label>Domain Rating — DR <span>*</span></label>
         <input id="f-dr" type="number" min="0" max="100" placeholder="Ej: 47" />
-        <div class="input-hint">Mínimo requerido: 25</div>
+        <div class="input-hint">mínimo requerido: 25</div>
       </div>
       <div>
         <label>Tráfico mensual <span>*</span></label>
         <input id="f-traffic" type="number" min="0" placeholder="Ej: 43000" />
-        <div class="input-hint">Número exacto de visitas · mínimo 1.000</div>
+        <div class="input-hint">número exacto de visitas · mínimo 1.000</div>
       </div>
       <div>
         <label>Spam Score Moz (%)</label>
         <input id="f-spam" type="number" min="0" max="100" step="0.1" placeholder="Ej: 2" />
-        <div class="input-hint">Máximo aceptado: 5%</div>
+        <div class="input-hint">máximo aceptado: 5%</div>
       </div>
       <div>
-        <label>Temática del medio</label>
+        <label>Temática declarada</label>
         <select id="f-tematica">
           <option value="deportes">Deportes</option>
           <option value="apuestas">Apuestas / Juego online</option>
@@ -484,9 +359,14 @@
     </div>
     <div id="form-error" style="display:none" class="error-msg"></div>
     <div class="btn-wrap">
-      <button class="btn-primary" onclick="validate()">Analizar dominio →</button>
+      <button class="btn-primary" id="btn-analyze" onclick="validate()">Analizar dominio →</button>
       <button class="btn-secondary" onclick="clearForm()">Limpiar</button>
     </div>
+  </div>
+
+  <!-- LOADING -->
+  <div id="loading-wrap" style="display:none" class="loading-wrap">
+    <div class="loading-steps" id="loading-steps"></div>
   </div>
 
   <!-- RESULT -->
@@ -498,229 +378,439 @@
 </div>
 
 <script>
-  // Header date
-  document.getElementById('header-date').textContent = new Date().toLocaleDateString('es-ES', {day:'2-digit',month:'short',year:'numeric'});
+// ── STATE ──────────────────────────────────────────────
+let history = [];
+let apiKey = localStorage.getItem('oai_key') || '';
 
-  let history = [];
+// ── INIT ──────────────────────────────────────────────
+document.getElementById('header-date').textContent = new Date().toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'});
+updateApiUI();
 
-  function getTLD(url) {
-    try {
-      const h = new URL(url.startsWith('http') ? url : 'https://'+url).hostname;
-      const parts = h.split('.');
-      return '.' + parts[parts.length - 1];
-    } catch { return ''; }
+function updateApiUI() {
+  const btn = document.getElementById('api-status-btn');
+  const banner = document.getElementById('api-banner');
+  if (apiKey) {
+    btn.textContent = 'GPT · activo';
+    btn.className = 'api-status active';
+    banner.style.display = 'none';
+  } else {
+    btn.textContent = 'GPT · sin clave';
+    btn.className = 'api-status inactive';
+    banner.style.display = 'block';
   }
+}
 
-  function now() {
-    return new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-  }
+function toggleApiPanel() {
+  const banner = document.getElementById('api-banner');
+  banner.style.display = banner.style.display === 'none' ? 'block' : 'none';
+}
 
-  function clearForm() {
-    ['f-url','f-dr','f-traffic','f-spam','f-precio','f-anchor'].forEach(id => {
-      document.getElementById(id).value = '';
-    });
-    document.getElementById('f-tematica').value = 'generalista';
-    document.getElementById('f-proyecto').value = 'WebApuestas';
-    document.getElementById('form-error').style.display = 'none';
-    document.getElementById('result-wrap').style.display = 'none';
-  }
+function saveApiKey() {
+  const val = document.getElementById('api-key-input').value.trim();
+  if (!val.startsWith('sk-')) { alert('La clave debe empezar por sk-'); return; }
+  apiKey = val;
+  localStorage.setItem('oai_key', val);
+  document.getElementById('api-key-input').value = '';
+  updateApiUI();
+}
 
-  function showError(msg) {
-    const el = document.getElementById('form-error');
-    el.textContent = msg;
-    el.style.display = 'block';
-  }
+// ── HELPERS ───────────────────────────────────────────
+function getTLD(url) {
+  try {
+    const h = new URL(url.startsWith('http') ? url : 'https://'+url).hostname;
+    return '.' + h.split('.').pop();
+  } catch { return ''; }
+}
 
-  function validate() {
-    document.getElementById('form-error').style.display = 'none';
+function getDomain(url) {
+  try { return new URL(url.startsWith('http') ? url : 'https://'+url).hostname.replace('www.',''); }
+  catch { return url; }
+}
 
-    const url      = document.getElementById('f-url').value.trim();
-    const drRaw    = document.getElementById('f-dr').value;
-    const trfRaw   = document.getElementById('f-traffic').value;
-    const spamRaw  = document.getElementById('f-spam').value;
-    const tematica = document.getElementById('f-tematica').value;
-    const proyecto = document.getElementById('f-proyecto').value;
-    const precio   = document.getElementById('f-precio').value || null;
-    const anchor   = document.getElementById('f-anchor').value.trim() || null;
+function now() { return new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'}); }
 
-    if (!url) return showError('Introduce la URL del dominio.');
-    if (drRaw === '') return showError('Introduce el Domain Rating (DR).');
-    if (trfRaw === '') return showError('Introduce el tráfico mensual estimado.');
+function setLoadingStep(steps, activeIdx) {
+  const el = document.getElementById('loading-steps');
+  el.innerHTML = steps.map((s, i) => {
+    let cls = i < activeIdx ? 'done' : i === activeIdx ? 'active' : 'pending';
+    let icon = i < activeIdx
+      ? '<span class="step-icon ok">✓</span>'
+      : i === activeIdx
+        ? '<div class="spinner"></div>'
+        : '<span class="step-icon">·</span>';
+    return `<div class="loading-step ${cls}">${icon}<span>${s}</span></div>`;
+  }).join('');
+}
 
-    const dr      = parseFloat(drRaw);
-    const traffic = parseFloat(trfRaw);
-    const spam    = spamRaw !== '' ? parseFloat(spamRaw) : null;
-    const tld     = getTLD(url);
+// ── FETCH SITE CONTENT VIA PROXY ──────────────────────
+async function fetchSiteContent(url) {
+  const normalized = url.startsWith('http') ? url : 'https://' + url;
+  const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(normalized);
+  const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(12000) });
+  if (!res.ok) throw new Error('No se pudo acceder al sitio');
+  const data = await res.json();
+  const html = data.contents || '';
 
-    const motivos   = [];
-    const pendientes = [];
-    let rechazado   = false;
-
-    // — TLD
-    if (tld !== '.es' && tld !== '.com') {
-      rechazado = true;
-      motivos.push({ ok: false, text: 'TLD ' + tld + ' no aceptado — solo .es y .com son válidos' });
-    } else {
-      motivos.push({ ok: true, text: 'TLD ' + tld + ' válido para el mercado español' });
-      if (tld === '.com') pendientes.push('Verificar con Similarweb que el tráfico es mayoritariamente español');
-    }
-
-    // — DR
-    if (dr < 25) {
-      rechazado = true;
-      motivos.push({ ok: false, text: 'DR ' + dr + ' por debajo del mínimo requerido (≥25)' });
-    } else {
-      motivos.push({ ok: true, text: 'DR ' + dr + ' cumple el umbral mínimo de 25' });
-    }
-
-    // — Tráfico
-    if (traffic < 1000) {
-      rechazado = true;
-      motivos.push({ ok: false, text: 'Tráfico de ' + traffic.toLocaleString('es-ES') + ' visitas/mes por debajo del mínimo requerido (1.000)' });
-    } else {
-      const trafficLabel = traffic >= 1000 ? (traffic / 1000).toLocaleString('es-ES', {maximumFractionDigits:1}) + 'K' : traffic;
-      motivos.push({ ok: true, text: 'Tráfico de ' + trafficLabel + ' visitas/mes cumple el mínimo requerido' });
-    }
-
-    // — Spam Score
-    if (spam !== null) {
-      if (spam >= 5) {
-        rechazado = true;
-        motivos.push({ ok: false, text: 'Spam Score ' + spam + '% supera el máximo permitido (<5% Moz)' });
-      } else {
-        motivos.push({ ok: true, text: 'Spam Score ' + spam + '% dentro del rango aceptable' });
-      }
-    } else {
-      pendientes.push('Verificar Spam Score en Moz — debe ser inferior al 5%');
-    }
-
-    // — Temática
-    const prioritarias = ['deportes','apuestas','fintech','tecnologia','regulacion'];
-    let encaje, encajeColor;
-    if (prioritarias.includes(tematica)) {
-      encaje = 'PRIORITARIO'; encajeColor = 'green';
-      motivos.push({ ok: true, text: 'Temática con encaje prioritario para el sector (apuestas/deporte/fintech)' });
-    } else if (tematica === 'generalista') {
-      encaje = 'PUNTUAL'; encajeColor = 'amber';
-      motivos.push({ ok: true, text: 'Generalista — válido solo con artículo contextualizado en juego, deporte o regulación' });
-      if (!rechazado) pendientes.push('El artículo debe tener contexto directo sobre juego, deporte o regulación');
-    } else {
-      encaje = 'DESCARTADO'; encajeColor = 'red';
-      rechazado = true;
-      motivos.push({ ok: false, text: 'Temática sin encaje con el sector — descartado por criterio editorial' });
-    }
-
-    // — Historial tráfico
-    pendientes.push('Verificar historial de tráfico en Ahrefs/Semrush — rechazar si hay caída >30% en 3 meses');
-
-    // — Riesgo
-    let riesgo, riesgoColor;
-    if (rechazado) { riesgo = 'ALTO'; riesgoColor = 'red'; }
-    else if (pendientes.length >= 3 || tld === '.com' || spam === null) { riesgo = 'MEDIO'; riesgoColor = 'amber'; }
-    else { riesgo = 'BAJO'; riesgoColor = 'green'; }
-
-    const veredicto = rechazado ? 'RECHAZADO' : 'VALIDADO';
-
-    const entry = { url, dr, traffic, spam, tematica, proyecto, precio, anchor, encaje, encajeColor, riesgo, riesgoColor, motivos, pendientes, veredicto, ts: now() };
-    history.unshift(entry);
-    updateStats();
-    renderResult(entry);
-    renderHistory();
-
-    document.getElementById('result-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  function updateStats() {
-    document.getElementById('stats-bar').style.display = 'grid';
-    document.getElementById('s-total').textContent = history.length;
-    document.getElementById('s-ok').textContent = history.filter(h => h.veredicto === 'VALIDADO').length;
-    document.getElementById('s-ko').textContent = history.filter(h => h.veredicto === 'RECHAZADO').length;
-  }
-
-  function renderResult(e) {
-    const sc = e.veredicto === 'VALIDADO';
-    const headerClass = sc ? 'valid' : 'invalid';
-    const icon = sc ? '✓' : '✗';
-    const verdictClass = sc ? 'valid' : 'invalid';
-
-    // badges
-    const encajeBadge = `<span class="badge badge-${e.encajeColor}">Encaje: ${e.encaje}</span>`;
-    const riesgoBadge = `<span class="badge badge-${e.riesgoColor}">Riesgo: ${e.riesgo}</span>`;
-    const drBadge = `<span class="badge ${e.dr >= 25 ? 'badge-green' : 'badge-red'}">DR ${e.dr}</span>`;
-    const tldBadge = `<span class="badge ${getTLD(e.url) === '.es' || getTLD(e.url) === '.com' ? 'badge-green' : 'badge-red'}">${getTLD(e.url).toUpperCase()}</span>`;
-    const proyBadge = `<span class="badge badge-blue">${e.proyecto}</span>`;
-    const precioBadge = e.precio ? `<span class="badge badge-gray">${e.precio} €</span>` : '';
-    const anchorBadge = e.anchor ? `<span class="badge badge-gray">"${e.anchor}"</span>` : '';
-
-    const motivosHTML = e.motivos.map(m =>
-      `<div class="motivo">
-        <span class="motivo-icon ${m.ok ? 'ok' : 'fail'}">${m.ok ? '✓' : '✗'}</span>
-        <span>${m.text}</span>
-      </div>`
-    ).join('');
-
-    const pendientesHTML = e.pendientes.length ? `
-      <div class="pending-box">
-        <div class="pending-title">Verificar antes de contratar</div>
-        ${e.pendientes.map(v => `<div class="pending-item"><span style="flex-shrink:0">·</span>${v}</div>`).join('')}
-      </div>` : '';
-
-    const metaHTML = `
-      <div class="verdict-meta">
-        <div class="verdict-meta-label">Tráfico</div>
-        <div class="verdict-meta-val">${e.traffic >= 1000 ? (e.traffic/1000).toLocaleString('es-ES',{maximumFractionDigits:1})+'K' : e.traffic} vis/mes</div>
-        ${e.spam !== null ? `<div class="verdict-meta-label" style="margin-top:8px">Spam Score</div><div class="verdict-meta-val">${e.spam}%</div>` : ''}
-      </div>`;
-
-    const html = `
-      <div class="result-card">
-        <div class="result-header ${headerClass}">
-          <div>
-            <div class="verdict-label">Dictamen · ${e.ts}</div>
-            <div class="verdict-text ${verdictClass}">${icon} ${sc ? 'Validado' : 'Rechazado'}</div>
-            <div class="verdict-domain">${e.url}</div>
-          </div>
-          ${metaHTML}
-        </div>
-        <div class="result-body">
-          <div class="badges">${encajeBadge}${riesgoBadge}${drBadge}${tldBadge}${proyBadge}${precioBadge}${anchorBadge}</div>
-          <div class="section-label">Criterios evaluados</div>
-          <div class="motivo-list">${motivosHTML}</div>
-          ${pendientesHTML}
-        </div>
-      </div>`;
-
-    const wrap = document.getElementById('result-wrap');
-    wrap.style.display = 'block';
-    wrap.innerHTML = html;
-  }
-
-  function renderHistory() {
-    if (history.length < 2) { document.getElementById('hist-wrap').style.display = 'none'; return; }
-    const items = history.slice(1).map((h, i) => {
-      const sc = h.veredicto === 'VALIDADO';
-      return `<div class="hist-item" onclick="loadEntry(${i+1})">
-        <div class="hist-dot" style="background:${sc ? 'var(--green)' : 'var(--red)'}"></div>
-        <div class="hist-domain">${h.url}</div>
-        <span class="hist-verdict" style="background:${sc ? 'var(--green-bg)' : 'var(--red-bg)'};color:${sc ? 'var(--green)' : 'var(--red)'};">${h.veredicto}</span>
-        <div class="hist-ts">${h.ts}</div>
-      </div>`;
-    }).join('');
-
-    const wrap = document.getElementById('hist-wrap');
-    wrap.style.display = 'block';
-    wrap.innerHTML = `<div class="hist-section"><div class="hist-title">Historial de sesión</div>${items}</div>`;
-  }
-
-  function loadEntry(i) {
-    renderResult(history[i]);
-    document.getElementById('result-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  // Enter key on inputs
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && e.target.tagName === 'INPUT') validate();
+  // Extract text from HTML
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  ['script','style','nav','footer','header','aside','noscript','iframe'].forEach(tag => {
+    doc.querySelectorAll(tag).forEach(el => el.remove());
   });
+
+  // Get title + description + body text
+  const title = doc.querySelector('title')?.textContent || '';
+  const desc = doc.querySelector('meta[name="description"]')?.getAttribute('content') || '';
+  const h1s = [...doc.querySelectorAll('h1,h2,h3')].map(h => h.textContent.trim()).filter(Boolean).slice(0, 12).join(' | ');
+  const bodyText = (doc.body?.innerText || doc.body?.textContent || '').replace(/\s+/g,' ').trim().slice(0, 2500);
+
+  return `TÍTULO: ${title}\nDESCRIPCIÓN META: ${desc}\nENCEBEZADOS: ${h1s}\nCONTENIDO: ${bodyText}`;
+}
+
+// ── GPT ANALYSIS ──────────────────────────────────────
+async function analyzeWithGPT(siteText, url, proyecto, anchor) {
+  const systemPrompt = `Eres un experto en link building para el sector de apuestas deportivas y casinos online en España.
+Analiza el contenido de un sitio web y evalúa si es apto para publicar un artículo de pago con enlace dofollow hacia páginas de apuestas, casinos, métodos de pago o fintech en España.
+
+Responde SOLO con JSON válido, sin texto adicional ni backticks:
+{
+  "tematica_real": "descripción breve de la temática principal del sitio",
+  "calidad_editorial": "ALTA", "MEDIA" o "BAJA",
+  "encaje_sector": "BUENO", "REGULAR" o "MALO",
+  "apto_linkbuilding": true o false,
+  "resumen_ia": "2-3 frases explicando el veredicto desde el análisis de contenido",
+  "señales_positivas": ["hasta 3 señales positivas del sitio"],
+  "señales_negativas": ["hasta 3 señales negativas o riesgos"]
+}`;
+
+  const userPrompt = `Proyecto de destino: ${proyecto}${anchor ? '\nAnchor text propuesto: "' + anchor + '"' : ''}
+URL analizada: ${url}
+
+CONTENIDO EXTRAÍDO DEL SITIO:
+${siteText}`;
+
+  const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+    body: JSON.stringify({
+      model: 'gpt-4o-mini',
+      max_tokens: 700,
+      temperature: 0.2,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt }
+      ]
+    }),
+    signal: AbortSignal.timeout(20000)
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error?.message || 'Error OpenAI ' + res.status);
+  }
+
+  const data = await res.json();
+  const raw = data.choices?.[0]?.message?.content?.trim() || '';
+  return JSON.parse(raw.replace(/^```[a-z]*\n?/i,'').replace(/\n?```$/,'').trim());
+}
+
+// ── VALIDATE ──────────────────────────────────────────
+async function validate() {
+  document.getElementById('form-error').style.display = 'none';
+
+  const url      = document.getElementById('f-url').value.trim();
+  const drRaw    = document.getElementById('f-dr').value;
+  const trfRaw   = document.getElementById('f-traffic').value;
+  const spamRaw  = document.getElementById('f-spam').value;
+  const tematica = document.getElementById('f-tematica').value;
+  const proyecto = document.getElementById('f-proyecto').value;
+  const precio   = document.getElementById('f-precio').value || null;
+  const anchor   = document.getElementById('f-anchor').value.trim() || null;
+
+  if (!url) return showError('Introduce la URL del dominio.');
+  if (!drRaw) return showError('Introduce el Domain Rating (DR).');
+  if (!trfRaw) return showError('Introduce el tráfico mensual.');
+
+  const dr      = parseFloat(drRaw);
+  const traffic = parseFloat(trfRaw);
+  const spam    = spamRaw !== '' ? parseFloat(spamRaw) : null;
+  const tld     = getTLD(url);
+  const domainName = getDomain(url);
+
+  // ── SEO RULES ──────────────────────────────────────
+  const motivos   = [];
+  const pendientes = [];
+  let rechazado   = false;
+
+  // TLD
+  if (tld !== '.es' && tld !== '.com') {
+    rechazado = true;
+    motivos.push({ ok: false, text: 'TLD ' + tld + ' no aceptado — solo .es y .com son válidos' });
+  } else {
+    motivos.push({ ok: true, text: 'TLD ' + tld + ' válido para el mercado español' });
+    if (tld === '.com') pendientes.push('Verificar con Similarweb que el tráfico es mayoritariamente español');
+  }
+
+  // DR
+  if (dr < 25) {
+    rechazado = true;
+    motivos.push({ ok: false, text: 'DR ' + dr + ' por debajo del mínimo requerido (≥25)' });
+  } else {
+    motivos.push({ ok: true, text: 'DR ' + dr + ' cumple el umbral mínimo de 25' });
+  }
+
+  // Traffic
+  if (traffic < 1000) {
+    rechazado = true;
+    motivos.push({ ok: false, text: 'Tráfico de ' + traffic.toLocaleString('es-ES') + ' visitas/mes por debajo del mínimo (1.000)' });
+  } else {
+    const lbl = traffic >= 1000 ? (traffic/1000).toLocaleString('es-ES',{maximumFractionDigits:1})+'K' : traffic;
+    motivos.push({ ok: true, text: 'Tráfico de ' + lbl + ' visitas/mes cumple el mínimo requerido' });
+  }
+
+  // Spam
+  if (spam !== null) {
+    if (spam >= 5) { rechazado = true; motivos.push({ ok: false, text: 'Spam Score ' + spam + '% supera el máximo permitido (<5% Moz)' }); }
+    else { motivos.push({ ok: true, text: 'Spam Score ' + spam + '% dentro del rango aceptable' }); }
+  } else {
+    pendientes.push('Verificar Spam Score en Moz — debe ser inferior al 5%');
+  }
+
+  // Domain name analysis
+  const ciudades = ['elche','elda','torrevieja','benidorm','orihuela','murcia','sevilla','bilbao','zaragoza','valladolid','cordoba','alicante','vigo','gijon','vitoria','granada','alcoy','cartagena','almeria','huelva','badajoz','salamanca','burgos','albacete','castellon','jaen','santander','pamplona','logrono','caceres','lleida','lerida','tarragona','girona','gerona','sabadell','terrassa','badalona','lanzarote','tenerife','cadiz','jerez','marbella','malaga','toledo','cuenca','guadalajara','segovia','avila','soria','zamora','leon','palencia','oviedo','lugo','ourense','pontevedra','melilla','ceuta'];
+  const kwLocal = ['semueve','comarca','municipal','vecin','barrio','ayuntamiento','concejo','parroquia'];
+  const kwSector = ['sport','deport','futbol','basket','tenis','apuest','casino','bet','bingo','poker','ruleta','slot','loteria','pago','fintech','tech','periodist','prensa','diario','actualidad'];
+
+  const dl = domainName.toLowerCase();
+  const ciudadMatch = ciudades.find(c => dl.includes(c));
+  if (ciudadMatch) {
+    rechazado = true;
+    motivos.push({ ok: false, text: 'El dominio contiene el topónimo "' + ciudadMatch + '" — medio local sin encaje temático con el sector' });
+  } else if (kwLocal.some(k => dl.includes(k)) && !kwSector.some(k => dl.includes(k))) {
+    rechazado = true;
+    motivos.push({ ok: false, text: 'El dominio presenta indicadores de medio local/municipal sin relación con el sector' });
+  }
+
+  // Temática
+  const prioritarias = ['deportes','apuestas','fintech','tecnologia','regulacion'];
+  let encaje, encajeColor;
+  if (prioritarias.includes(tematica)) {
+    encaje = 'PRIORITARIO'; encajeColor = 'green';
+    motivos.push({ ok: true, text: 'Temática con encaje prioritario (apuestas/deporte/fintech/regulación)' });
+  } else if (tematica === 'generalista') {
+    if (rechazado) { encaje = 'DESCARTADO'; encajeColor = 'red'; }
+    else {
+      encaje = 'PUNTUAL'; encajeColor = 'amber';
+      motivos.push({ ok: true, text: 'Generalista — válido solo con artículo contextualizado sobre juego, deporte o regulación' });
+      pendientes.push('El artículo debe tener contexto directo sobre juego, deporte o regulación');
+    }
+  } else {
+    encaje = 'DESCARTADO'; encajeColor = 'red'; rechazado = true;
+    motivos.push({ ok: false, text: 'Temática sin encaje con el sector — descartado por criterio editorial' });
+  }
+
+  pendientes.push('Verificar historial de tráfico en Ahrefs/Semrush — rechazar si caída >30% en 3 meses');
+
+  let riesgo, riesgoColor;
+  if (rechazado) { riesgo = 'ALTO'; riesgoColor = 'red'; }
+  else if (pendientes.length >= 3 || tld === '.com' || spam === null) { riesgo = 'MEDIO'; riesgoColor = 'amber'; }
+  else { riesgo = 'BAJO'; riesgoColor = 'green'; }
+
+  // ── AI ANALYSIS ───────────────────────────────────
+  let aiResult = null;
+  document.getElementById('result-wrap').style.display = 'none';
+
+  if (apiKey) {
+    const steps = ['Verificando métricas SEO', 'Cargando contenido del sitio', 'Analizando con GPT-4o mini', 'Generando dictamen final'];
+    document.getElementById('loading-wrap').style.display = 'block';
+    document.getElementById('btn-analyze').disabled = true;
+
+    try {
+      setLoadingStep(steps, 0);
+      await new Promise(r => setTimeout(r, 600));
+
+      setLoadingStep(steps, 1);
+      let siteText = '';
+      try { siteText = await fetchSiteContent(url); }
+      catch (e) { siteText = 'No se pudo cargar el contenido del sitio (' + e.message + ')'; }
+
+      setLoadingStep(steps, 2);
+      try { aiResult = await analyzeWithGPT(siteText, url, proyecto, anchor); }
+      catch (e) { aiResult = { error: e.message }; }
+
+      setLoadingStep(steps, 3);
+      await new Promise(r => setTimeout(r, 400));
+    } finally {
+      document.getElementById('loading-wrap').style.display = 'none';
+      document.getElementById('btn-analyze').disabled = false;
+    }
+
+    // Override verdict if AI says clearly not suitable
+    if (aiResult && !aiResult.error && !aiResult.apto_linkbuilding && !rechazado) {
+      rechazado = true;
+      riesgo = 'ALTO'; riesgoColor = 'red';
+      encaje = 'DESCARTADO'; encajeColor = 'red';
+      motivos.push({ ok: false, text: 'GPT: el análisis de contenido real indica que el sitio no es apto para link building en el sector' });
+    } else if (aiResult && !aiResult.error && aiResult.apto_linkbuilding && aiResult.encaje_sector === 'BUENO') {
+      if (encaje === 'PUNTUAL') { encaje = 'PRIORITARIO'; encajeColor = 'green'; }
+    }
+  }
+
+  const veredicto = rechazado ? 'RECHAZADO' : 'VALIDADO';
+  const entry = { url, dr, traffic, spam, tematica, proyecto, precio, anchor, encaje, encajeColor, riesgo, riesgoColor, motivos, pendientes, veredicto, aiResult, ts: now() };
+  history.unshift(entry);
+  updateStats();
+  renderResult(entry);
+  renderHistory();
+  document.getElementById('result-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ── RENDER ────────────────────────────────────────────
+function showError(msg) {
+  const el = document.getElementById('form-error');
+  el.textContent = msg; el.style.display = 'block';
+}
+
+function clearForm() {
+  ['f-url','f-dr','f-traffic','f-spam','f-precio','f-anchor'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-tematica').value = 'generalista';
+  document.getElementById('f-proyecto').value = 'WebApuestas';
+  document.getElementById('form-error').style.display = 'none';
+  document.getElementById('result-wrap').style.display = 'none';
+}
+
+function updateStats() {
+  document.getElementById('stats-bar').style.display = 'grid';
+  document.getElementById('s-total').textContent = history.length;
+  document.getElementById('s-ok').textContent = history.filter(h => h.veredicto === 'VALIDADO').length;
+  document.getElementById('s-ko').textContent = history.filter(h => h.veredicto === 'RECHAZADO').length;
+}
+
+function renderResult(e) {
+  const sc = e.veredicto === 'VALIDADO';
+  const icon = sc ? '✓' : '✗';
+
+  const trafficLbl = e.traffic >= 1000 ? (e.traffic/1000).toLocaleString('es-ES',{maximumFractionDigits:1})+'K' : e.traffic;
+
+  const badges = [
+    `<span class="badge badge-${e.encajeColor}">Encaje: ${e.encaje}</span>`,
+    `<span class="badge badge-${e.riesgoColor}">Riesgo: ${e.riesgo}</span>`,
+    `<span class="badge ${e.dr >= 25 ? 'badge-green' : 'badge-red'}">DR ${e.dr}</span>`,
+    `<span class="badge ${getTLD(e.url) === '.es' || getTLD(e.url) === '.com' ? 'badge-green' : 'badge-red'}">${getTLD(e.url).toUpperCase()}</span>`,
+    `<span class="badge badge-blue">${e.proyecto}</span>`,
+    e.precio ? `<span class="badge badge-gray">${e.precio} €</span>` : '',
+    e.anchor ? `<span class="badge badge-gray">"${e.anchor}"</span>` : '',
+    e.aiResult && !e.aiResult.error ? `<span class="badge badge-purple">GPT analizado</span>` : '',
+  ].join('');
+
+  const motivosHTML = e.motivos.map(m =>
+    `<div class="motivo"><span class="motivo-icon ${m.ok?'ok':'fail'}">${m.ok?'✓':'✗'}</span><span class="motivo-text">${m.text}</span></div>`
+  ).join('');
+
+  const pendientesHTML = e.pendientes.length ? `
+    <div class="pending-box">
+      <div class="pending-title">Verificar antes de contratar</div>
+      ${e.pendientes.map(v => `<div class="pending-item"><span style="flex-shrink:0">·</span>${v}</div>`).join('')}
+    </div>` : '';
+
+  let aiHTML = '';
+  if (e.aiResult) {
+    if (e.aiResult.error) {
+      aiHTML = `<div class="divider"></div>
+        <div class="ai-section">
+          <div class="ai-header">
+            <div class="ai-header-left"><span class="ai-badge">GPT</span><span class="ai-title">Análisis de contenido</span></div>
+            <span class="ai-verdict" style="background:var(--amber-bg);color:var(--amber)">Error</span>
+          </div>
+          <div class="ai-body"><div class="ai-resumen" style="color:var(--muted)">No se pudo completar el análisis: ${e.aiResult.error}</div></div>
+        </div>`;
+    } else {
+      const ai = e.aiResult;
+      const aptoBadgeColor = ai.apto_linkbuilding ? 'badge-green' : 'badge-red';
+      const aptoBadgeText = ai.apto_linkbuilding ? 'Apto para link building' : 'No apto para link building';
+      const calidad = ai.calidad_editorial === 'ALTA' ? 'badge-green' : ai.calidad_editorial === 'MEDIA' ? 'badge-amber' : 'badge-red';
+      const encajeIA = ai.encaje_sector === 'BUENO' ? 'badge-green' : ai.encaje_sector === 'REGULAR' ? 'badge-amber' : 'badge-red';
+
+      const posHTML = (ai.señales_positivas || []).map(s => `<div class="ai-signal pos"><span>✓</span><span>${s}</span></div>`).join('');
+      const negHTML = (ai.señales_negativas || []).map(s => `<div class="ai-signal neg"><span>✗</span><span>${s}</span></div>`).join('');
+
+      aiHTML = `<div class="divider"></div>
+        <div class="ai-section">
+          <div class="ai-header">
+            <div class="ai-header-left"><span class="ai-badge">GPT-4o mini</span><span class="ai-title">Análisis de contenido real</span></div>
+            <span class="ai-verdict ${aptoBadgeColor}">${ai.apto_linkbuilding ? 'Apto' : 'No apto'}</span>
+          </div>
+          <div class="ai-body">
+            <div class="ai-resumen">${ai.resumen_ia || ''}</div>
+            <div class="ai-meta-row" style="margin-bottom:14px">
+              <span class="badge ${aptoBadgeColor}">${aptoBadgeText}</span>
+              <span class="badge ${calidad}">Calidad: ${ai.calidad_editorial}</span>
+              <span class="badge ${encajeIA}">Encaje: ${ai.encaje_sector}</span>
+              ${ai.tematica_real ? `<span class="badge badge-gray">${ai.tematica_real}</span>` : ''}
+            </div>
+            ${(posHTML || negHTML) ? `<div class="ai-cols">
+              <div><div class="ai-col-title">Señales positivas</div>${posHTML || '<div class="ai-signal" style="color:var(--muted);opacity:.5">Ninguna detectada</div>'}</div>
+              <div><div class="ai-col-title">Señales negativas</div>${negHTML || '<div class="ai-signal" style="color:var(--muted);opacity:.5">Ninguna detectada</div>'}</div>
+            </div>` : ''}
+          </div>
+        </div>`;
+    }
+  }
+
+  const html = `
+    <div class="result-card">
+      <div class="result-header ${sc?'valid':'invalid'}">
+        <div>
+          <div class="verdict-label">Dictamen · ${e.ts}</div>
+          <div class="verdict-text ${sc?'valid':'invalid'}">${icon} ${sc ? 'Validado' : 'Rechazado'}</div>
+          <div class="verdict-domain">${e.url}</div>
+        </div>
+        <div class="verdict-meta">
+          <div class="verdict-meta-label">Tráfico</div>
+          <div class="verdict-meta-val">${trafficLbl} vis/mes</div>
+          ${e.spam !== null ? `<div class="verdict-meta-label" style="margin-top:8px">Spam Score</div><div class="verdict-meta-val">${e.spam}%</div>` : ''}
+        </div>
+      </div>
+      <div class="result-body">
+        <div class="badges">${badges}</div>
+        <div class="section-label">Criterios SEO</div>
+        <div>${motivosHTML}</div>
+        ${aiHTML}
+        ${pendientesHTML}
+      </div>
+    </div>`;
+
+  const wrap = document.getElementById('result-wrap');
+  wrap.style.display = 'block';
+  wrap.innerHTML = html;
+}
+
+function renderHistory() {
+  if (history.length < 2) { document.getElementById('hist-wrap').style.display = 'none'; return; }
+  const items = history.slice(1).map((h, i) => {
+    const sc = h.veredicto === 'VALIDADO';
+    return `<div class="hist-item" onclick="loadEntry(${i+1})">
+      <div class="hist-dot" style="background:${sc?'var(--green)':'var(--red)'}"></div>
+      <div class="hist-domain">${h.url}</div>
+      ${h.aiResult && !h.aiResult.error ? '<span class="hist-ai">GPT</span>' : ''}
+      <span class="hist-verdict" style="background:${sc?'var(--green-bg)':'var(--red-bg)'};color:${sc?'var(--green)':'var(--red)'};">${h.veredicto}</span>
+      <div class="hist-ts">${h.ts}</div>
+    </div>`;
+  }).join('');
+  const wrap = document.getElementById('hist-wrap');
+  wrap.style.display = 'block';
+  wrap.innerHTML = `<div class="hist-section"><div class="hist-title">Historial de sesión</div>${items}</div>`;
+}
+
+function loadEntry(i) {
+  renderResult(history[i]);
+  document.getElementById('result-wrap').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.target.tagName === 'INPUT' && e.target.id !== 'api-key-input') validate();
+  if (e.key === 'Enter' && e.target.id === 'api-key-input') saveApiKey();
+});
 </script>
 </body>
 </html>
