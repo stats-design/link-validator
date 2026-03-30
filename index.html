@@ -5,196 +5,296 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Validador de Medios SEO</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:#0e0e0f; --bg2:#161618; --bg3:#1d1d20;
-    --border:rgba(255,255,255,0.08); --border2:rgba(255,255,255,0.14);
-    --text:#f0f0ee; --muted:#888884; --faint:#3a3a38;
-    --green:#3ddc84; --green-bg:rgba(61,220,132,0.08); --green-border:rgba(61,220,132,0.22);
-    --red:#ff5f57; --red-bg:rgba(255,95,87,0.08); --red-border:rgba(255,95,87,0.22);
-    --amber:#f5a623; --amber-bg:rgba(245,166,35,0.08); --amber-border:rgba(245,166,35,0.22);
-    --blue:#4fa3e0; --blue-bg:rgba(79,163,224,0.08); --blue-border:rgba(79,163,224,0.22);
-    --purple:#a78bfa; --purple-bg:rgba(167,139,250,0.08); --purple-border:rgba(167,139,250,0.22);
-    --gpt:#10a37f; --gpt-bg:rgba(16,163,127,0.08); --gpt-border:rgba(16,163,127,0.22);
-    --radius:10px; --radius-lg:14px;
+    --bg: #0e0e0f;
+    --bg2: #161618;
+    --bg3: #1d1d20;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #f0f0ee;
+    --muted: #888884;
+    --faint: #3a3a38;
+    --green: #3ddc84;
+    --green-bg: rgba(61,220,132,0.08);
+    --green-border: rgba(61,220,132,0.22);
+    --red: #ff5f57;
+    --red-bg: rgba(255,95,87,0.08);
+    --red-border: rgba(255,95,87,0.22);
+    --amber: #f5a623;
+    --amber-bg: rgba(245,166,35,0.08);
+    --amber-border: rgba(245,166,35,0.22);
+    --blue: #4fa3e0;
+    --blue-bg: rgba(79,163,224,0.08);
+    --blue-border: rgba(79,163,224,0.22);
+    --purple: #a78bfa;
+    --purple-bg: rgba(167,139,250,0.08);
+    --purple-border: rgba(167,139,250,0.22);
+    --radius: 10px;
+    --radius-lg: 14px;
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
-  header{border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;background:rgba(14,14,15,0.94);backdrop-filter:blur(14px);z-index:100}
-  .logo{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600;letter-spacing:-0.01em}
-  .logo-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2.5s ease infinite}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-  .header-date{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
 
-  .container{max-width:820px;margin:0 auto;padding:3rem 1.5rem 5rem}
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
 
-  .hero{margin-bottom:2.5rem;animation:fadeUp .5s ease both}
-  .hero-label{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
-  .hero h1{font-size:30px;font-weight:600;letter-spacing:-.03em;line-height:1.15;margin-bottom:10px}
-  .hero p{font-size:14px;color:var(--muted);line-height:1.65;max-width:500px}
+  /* ── HEADER ── */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    background: rgba(14,14,15,0.94);
+    backdrop-filter: blur(14px);
+    z-index: 100;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+  .logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse 2.5s ease infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .header-date { font-size: 12px; color: var(--muted); font-family: 'DM Mono', monospace; }
+  .api-status { font-size: 11px; font-family: 'DM Mono', monospace; padding: 4px 10px; border-radius: 6px; cursor: pointer; transition: all 0.15s; }
+  .api-status.active { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+  .api-status.inactive { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
 
-  /* HOW IT WORKS */
-  .how-it-works{background:var(--gpt-bg);border:1px solid var(--gpt-border);border-radius:var(--radius-lg);padding:1.25rem 1.5rem;margin-bottom:1.5rem;animation:fadeUp .4s .05s ease both}
-  .how-title{font-size:12px;font-weight:600;color:var(--gpt);margin-bottom:10px;display:flex;align-items:center;gap:8px}
-  .how-steps{display:flex;gap:0;flex-direction:column;gap:6px}
-  .how-step{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--muted);line-height:1.5}
-  .how-num{width:20px;height:20px;border-radius:50%;background:var(--gpt-bg);border:1px solid var(--gpt-border);color:var(--gpt);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-family:'DM Mono',monospace}
+  /* ── LAYOUT ── */
+  .container { max-width: 820px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
 
-  /* STATS */
-  .stats-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.5rem;animation:fadeUp .4s ease both}
-  .stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px}
-  .stat-label{font-size:11px;color:var(--muted);margin-bottom:6px;font-family:'DM Mono',monospace;letter-spacing:.05em}
-  .stat-val{font-size:24px;font-weight:600;letter-spacing:-.02em}
+  /* ── HERO ── */
+  .hero { margin-bottom: 2.5rem; animation: fadeUp 0.5s ease both; }
+  .hero-label { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+  .hero h1 { font-size: 30px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 10px; }
+  .hero p { font-size: 14px; color: var(--muted); line-height: 1.65; max-width: 500px; }
 
-  /* FORM */
-  .card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem;margin-bottom:1.5rem;animation:fadeUp .5s .1s ease both}
-  .card-title{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.25rem}
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  .full{grid-column:1/-1}
-  label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:500}
-  label span{color:var(--red);margin-left:2px}
-  input,select{width:100%;padding:10px 14px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--bg3);color:var(--text);border:1px solid var(--border);border-radius:var(--radius);outline:none;transition:border-color .15s;appearance:none}
-  input::placeholder{color:var(--faint)}
-  input:focus,select:focus{border-color:var(--border2)}
-  select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px}
-  .input-hint{font-size:11px;color:var(--faint);margin-top:5px;font-family:'DM Mono',monospace}
+  /* ── API KEY BANNER ── */
+  .api-banner {
+    background: var(--amber-bg);
+    border: 1px solid var(--amber-border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.4s ease both;
+  }
+  .api-banner-title { font-size: 12px; font-weight: 600; color: var(--amber); margin-bottom: 10px; letter-spacing: 0.02em; }
+  .api-banner p { font-size: 13px; color: var(--amber); opacity: 0.8; margin-bottom: 12px; line-height: 1.5; }
+  .api-key-row { display: flex; gap: 8px; }
+  .api-key-row input { flex: 1; font-size: 13px; font-family: 'DM Mono', monospace; }
+  .btn-save-key {
+    padding: 10px 16px; font-size: 13px; font-weight: 600; font-family: 'DM Sans', sans-serif;
+    background: var(--amber); color: #000; border: none; border-radius: var(--radius); cursor: pointer;
+    white-space: nowrap; transition: opacity 0.15s;
+  }
+  .btn-save-key:hover { opacity: 0.85; }
 
-  .btn-wrap{margin-top:1.5rem;display:flex;gap:10px;flex-wrap:wrap}
-  .btn-primary{flex:1;min-width:160px;padding:13px;font-size:15px;font-weight:600;font-family:'DM Sans',sans-serif;letter-spacing:-.01em;background:var(--text);color:var(--bg);border:none;border-radius:var(--radius);cursor:pointer;transition:opacity .15s,transform .1s}
-  .btn-primary:hover{opacity:.88}
-  .btn-primary:active{transform:scale(.99)}
-  .btn-gpt{flex:1;min-width:160px;padding:13px;font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;background:var(--gpt);color:#fff;border:none;border-radius:var(--radius);cursor:pointer;transition:opacity .15s;display:flex;align-items:center;justify-content:center;gap:8px}
-  .btn-gpt:hover{opacity:.88}
-  .btn-gpt:disabled{opacity:.35;cursor:not-allowed}
-  .btn-secondary{padding:13px 20px;font-size:14px;font-family:'DM Sans',sans-serif;font-weight:500;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:border-color .15s,color .15s}
-  .btn-secondary:hover{border-color:var(--border2);color:var(--text)}
+  /* ── FORM CARD ── */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.5s 0.05s ease both;
+  }
+  .card-title { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.25rem; }
 
-  .error-msg{background:var(--red-bg);border:1px solid var(--red-border);color:var(--red);font-size:13px;padding:10px 14px;border-radius:var(--radius);margin-top:12px}
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .full { grid-column: 1 / -1; }
 
-  /* GPT PASTE PANEL */
-  .gpt-panel{background:var(--bg2);border:1px solid var(--gpt-border);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:1.5rem;animation:fadeUp .35s ease both}
-  .gpt-panel-title{font-size:14px;font-weight:600;color:var(--gpt);margin-bottom:6px;display:flex;align-items:center;gap:8px}
-  .gpt-panel p{font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.6}
-  .gpt-panel textarea{width:100%;min-height:120px;padding:12px 14px;font-size:13px;font-family:'DM Mono',monospace;background:var(--bg3);color:var(--text);border:1px solid var(--border);border-radius:var(--radius);outline:none;resize:vertical;transition:border-color .15s;line-height:1.5}
-  .gpt-panel textarea:focus{border-color:var(--gpt-border)}
-  .gpt-panel textarea::placeholder{color:var(--faint)}
-  .paste-btn-row{display:flex;gap:10px;margin-top:10px}
-  .btn-parse{flex:1;padding:11px;font-size:14px;font-weight:600;font-family:'DM Sans',sans-serif;background:var(--gpt);color:#fff;border:none;border-radius:var(--radius);cursor:pointer;transition:opacity .15s}
-  .btn-parse:hover{opacity:.88}
-  .btn-cancel{padding:11px 18px;font-size:14px;font-family:'DM Sans',sans-serif;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer}
-  .btn-cancel:hover{border-color:var(--border2);color:var(--text)}
-  .copied-toast{font-size:12px;color:var(--gpt);font-family:'DM Mono',monospace;margin-top:8px;opacity:0;transition:opacity .3s}
-  .copied-toast.show{opacity:1}
+  label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
+  label span { color: var(--red); margin-left: 2px; }
 
-  /* RESULT */
-  .result-card{border-radius:var(--radius-lg);overflow:hidden;animation:fadeUp .35s ease both}
-  .result-header{padding:22px 24px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
-  .result-header.valid{background:var(--green-bg);border:1px solid var(--green-border);border-bottom:none}
-  .result-header.invalid{background:var(--red-bg);border:1px solid var(--red-border);border-bottom:none}
-  .verdict-label{font-size:11px;font-family:'DM Mono',monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;opacity:.65}
-  .verdict-text{font-size:26px;font-weight:600;letter-spacing:-.02em}
-  .verdict-text.valid{color:var(--green)}
-  .verdict-text.invalid{color:var(--red)}
-  .verdict-domain{font-size:12px;font-family:'DM Mono',monospace;opacity:.5;margin-top:5px;word-break:break-all}
-  .verdict-meta{text-align:right;flex-shrink:0}
-  .verdict-meta-label{font-size:11px;color:var(--muted);margin-bottom:3px}
-  .verdict-meta-val{font-size:13px;font-family:'DM Mono',monospace}
-  .result-body{background:var(--bg2);padding:22px 24px;border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius-lg) var(--radius-lg)}
+  input, select {
+    width: 100%; padding: 10px 14px; font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg3); color: var(--text);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    outline: none; transition: border-color 0.15s; appearance: none;
+  }
+  input::placeholder { color: var(--faint); }
+  input:focus, select:focus { border-color: var(--border2); }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px;
+  }
+  .input-hint { font-size: 11px; color: var(--faint); margin-top: 5px; font-family: 'DM Mono', monospace; }
 
-  .badges{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px}
-  .badge{font-size:12px;font-weight:500;padding:4px 11px;border-radius:6px;font-family:'DM Mono',monospace}
-  .badge-green{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
-  .badge-red{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
-  .badge-amber{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border)}
-  .badge-blue{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border)}
-  .badge-gpt{background:var(--gpt-bg);color:var(--gpt);border:1px solid var(--gpt-border)}
-  .badge-gray{background:rgba(255,255,255,0.04);color:var(--muted);border:1px solid var(--border)}
+  /* ── BUTTONS ── */
+  .btn-wrap { margin-top: 1.5rem; display: flex; gap: 10px; }
+  .btn-primary {
+    flex: 1; padding: 13px; font-size: 15px; font-weight: 600;
+    font-family: 'DM Sans', sans-serif; letter-spacing: -0.01em;
+    background: var(--text); color: var(--bg); border: none;
+    border-radius: var(--radius); cursor: pointer; transition: opacity 0.15s, transform 0.1s;
+  }
+  .btn-primary:hover { opacity: 0.88; }
+  .btn-primary:active { transform: scale(0.99); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-secondary {
+    padding: 13px 20px; font-size: 14px; font-family: 'DM Sans', sans-serif; font-weight: 500;
+    background: transparent; color: var(--muted); border: 1px solid var(--border);
+    border-radius: var(--radius); cursor: pointer; transition: border-color 0.15s, color 0.15s;
+  }
+  .btn-secondary:hover { border-color: var(--border2); color: var(--text); }
 
-  .section-label{font-size:11px;font-family:'DM Mono',monospace;color:var(--faint);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
-  .divider{height:1px;background:var(--border);margin:18px 0}
+  /* ── ERROR ── */
+  .error-msg { background: var(--red-bg); border: 1px solid var(--red-border); color: var(--red); font-size: 13px; padding: 10px 14px; border-radius: var(--radius); margin-top: 12px; }
 
-  .motivo{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border);font-size:14px;line-height:1.55}
-  .motivo:last-child{border-bottom:none}
-  .motivo-icon{flex-shrink:0;margin-top:2px;font-size:12px}
-  .motivo-icon.ok{color:var(--green)}
-  .motivo-icon.fail{color:var(--red)}
+  /* ── LOADING ── */
+  .loading-wrap { padding: 2rem 0; text-align: center; animation: fadeUp 0.3s ease both; }
+  .loading-steps { display: flex; flex-direction: column; gap: 10px; max-width: 320px; margin: 0 auto; }
+  .loading-step { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); font-size: 13px; }
+  .loading-step.done { border-color: var(--green-border); }
+  .loading-step.done .step-icon { color: var(--green); }
+  .loading-step.active { border-color: var(--blue-border); }
+  .loading-step.active .step-icon { color: var(--blue); }
+  .loading-step.pending { opacity: 0.35; }
+  .step-icon { font-size: 14px; flex-shrink: 0; width: 18px; text-align: center; }
+  .spinner { width: 14px; height: 14px; border: 2px solid var(--blue-border); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* AI SECTION */
-  .ai-section{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-top:4px}
-  .ai-header{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
-  .ai-header-left{display:flex;align-items:center;gap:8px}
-  .ai-badge{font-size:10px;font-family:'DM Mono',monospace;padding:3px 8px;border-radius:5px;background:var(--gpt-bg);color:var(--gpt);border:1px solid var(--gpt-border)}
-  .ai-title{font-size:13px;font-weight:500}
-  .ai-verdict{font-size:12px;font-weight:600;font-family:'DM Mono',monospace;padding:3px 10px;border-radius:6px}
-  .ai-body{padding:14px 16px}
-  .ai-resumen{font-size:14px;color:var(--text);line-height:1.65;margin-bottom:14px}
-  .ai-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
-  .ai-col-title{font-size:11px;font-family:'DM Mono',monospace;color:var(--faint);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
-  .ai-signal{font-size:13px;display:flex;gap:8px;margin-bottom:6px;line-height:1.5}
-  .ai-signal.pos{color:var(--green);opacity:.9}
-  .ai-signal.neg{color:var(--red);opacity:.9}
-  .ai-meta-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  /* ── STATS ── */
+  .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; animation: fadeUp 0.4s ease both; }
+  .stat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
+  .stat-label { font-size: 11px; color: var(--muted); margin-bottom: 6px; font-family: 'DM Mono', monospace; letter-spacing: 0.05em; }
+  .stat-val { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; }
 
-  .pending-box{background:var(--amber-bg);border:1px solid var(--amber-border);border-radius:var(--radius);padding:14px 16px;margin-top:14px}
-  .pending-title{font-size:11px;font-family:'DM Mono',monospace;color:var(--amber);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
-  .pending-item{display:flex;gap:9px;font-size:13px;color:var(--amber);margin-bottom:6px;line-height:1.5;opacity:.85}
-  .pending-item:last-child{margin-bottom:0}
+  /* ── RESULT ── */
+  .result-card { border-radius: var(--radius-lg); overflow: hidden; animation: fadeUp 0.35s ease both; }
+  .result-header { padding: 22px 24px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .result-header.valid { background: var(--green-bg); border: 1px solid var(--green-border); border-bottom: none; }
+  .result-header.invalid { background: var(--red-bg); border: 1px solid var(--red-border); border-bottom: none; }
+  .verdict-label { font-size: 11px; font-family: 'DM Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; opacity: 0.65; }
+  .verdict-text { font-size: 26px; font-weight: 600; letter-spacing: -0.02em; }
+  .verdict-text.valid { color: var(--green); }
+  .verdict-text.invalid { color: var(--red); }
+  .verdict-domain { font-size: 12px; font-family: 'DM Mono', monospace; opacity: 0.5; margin-top: 5px; word-break: break-all; }
+  .verdict-meta { text-align: right; flex-shrink: 0; }
+  .verdict-meta-label { font-size: 11px; color: var(--muted); margin-bottom: 3px; }
+  .verdict-meta-val { font-size: 13px; font-family: 'DM Mono', monospace; }
 
-  .hist-section{margin-top:2rem;animation:fadeUp .4s ease both}
-  .hist-title{font-size:11px;font-family:'DM Mono',monospace;color:var(--faint);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
-  .hist-item{display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:6px;cursor:pointer;transition:border-color .15s}
-  .hist-item:hover{border-color:var(--border2)}
-  .hist-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-  .hist-domain{flex:1;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:'DM Mono',monospace}
-  .hist-verdict{font-size:11px;font-weight:500;padding:3px 9px;border-radius:5px;font-family:'DM Mono',monospace;flex-shrink:0}
-  .hist-ts{font-size:11px;color:var(--faint);flex-shrink:0;font-family:'DM Mono',monospace}
-  .hist-gpt-badge{font-size:10px;color:var(--gpt);font-family:'DM Mono',monospace;opacity:.8}
+  .result-body { background: var(--bg2); padding: 22px 24px; border: 1px solid var(--border); border-top: none; border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
 
-  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .badges { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 20px; }
+  .badge { font-size: 12px; font-weight: 500; padding: 4px 11px; border-radius: 6px; font-family: 'DM Mono', monospace; }
+  .badge-green { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+  .badge-red { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+  .badge-amber { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
+  .badge-blue { background: var(--blue-bg); color: var(--blue); border: 1px solid var(--blue-border); }
+  .badge-purple { background: var(--purple-bg); color: var(--purple); border: 1px solid var(--purple-border); }
+  .badge-gray { background: rgba(255,255,255,0.04); color: var(--muted); border: 1px solid var(--border); }
 
-  @media(max-width:580px){
-    .grid2{grid-template-columns:1fr}
-    .hero h1{font-size:24px}
-    .stats-bar{grid-template-columns:1fr 1fr}
-    .stats-bar .stat-card:last-child{grid-column:1/-1}
-    header{padding:0 1rem}
-    .container{padding:2rem 1rem 3rem}
-    .result-header{flex-direction:column}
-    .verdict-meta{text-align:left}
-    .ai-cols{grid-template-columns:1fr}
-    .btn-wrap{flex-direction:column}
+  .section-label { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--faint); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+  .divider { height: 1px; background: var(--border); margin: 18px 0; }
+
+  .motivo { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; line-height: 1.55; }
+  .motivo:last-child { border-bottom: none; }
+  .motivo-icon { flex-shrink: 0; margin-top: 2px; font-size: 12px; }
+  .motivo-icon.ok { color: var(--green); }
+  .motivo-icon.fail { color: var(--red); }
+  .motivo-text { color: var(--text); }
+
+  /* ── AI ANALYSIS SECTION ── */
+  .ai-section {
+    margin-top: 4px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .ai-header {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+  .ai-header-left { display: flex; align-items: center; gap: 8px; }
+  .ai-badge { font-size: 10px; font-family: 'DM Mono', monospace; padding: 3px 8px; border-radius: 5px; background: var(--purple-bg); color: var(--purple); border: 1px solid var(--purple-border); }
+  .ai-title { font-size: 13px; font-weight: 500; }
+  .ai-verdict { font-size: 12px; font-weight: 600; font-family: 'DM Mono', monospace; padding: 3px 10px; border-radius: 6px; }
+  .ai-body { padding: 14px 16px; }
+  .ai-resumen { font-size: 14px; color: var(--text); line-height: 1.65; margin-bottom: 14px; }
+  .ai-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  .ai-col-title { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--faint); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+  .ai-signal { font-size: 13px; display: flex; gap: 8px; margin-bottom: 6px; line-height: 1.5; }
+  .ai-signal.pos { color: var(--green); opacity: 0.9; }
+  .ai-signal.neg { color: var(--red); opacity: 0.9; }
+  .ai-meta-row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  /* ── PENDING BOX ── */
+  .pending-box { background: var(--amber-bg); border: 1px solid var(--amber-border); border-radius: var(--radius); padding: 14px 16px; margin-top: 14px; }
+  .pending-title { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--amber); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+  .pending-item { display: flex; gap: 9px; font-size: 13px; color: var(--amber); margin-bottom: 6px; line-height: 1.5; opacity: 0.85; }
+  .pending-item:last-child { margin-bottom: 0; }
+
+  /* ── HISTORY ── */
+  .hist-section { margin-top: 2rem; animation: fadeUp 0.4s ease both; }
+  .hist-title { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--faint); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+  .hist-item { display: flex; align-items: center; gap: 12px; padding: 11px 14px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 6px; cursor: pointer; transition: border-color 0.15s; }
+  .hist-item:hover { border-color: var(--border2); }
+  .hist-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .hist-domain { flex: 1; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: 'DM Mono', monospace; }
+  .hist-verdict { font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 5px; font-family: 'DM Mono', monospace; flex-shrink: 0; }
+  .hist-ts { font-size: 11px; color: var(--faint); flex-shrink: 0; font-family: 'DM Mono', monospace; }
+  .hist-ai { font-size: 10px; color: var(--purple); font-family: 'DM Mono', monospace; opacity: 0.7; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 580px) {
+    .grid2 { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 24px; }
+    .stats-bar { grid-template-columns: 1fr 1fr; }
+    .stats-bar .stat-card:last-child { grid-column: 1/-1; }
+    header { padding: 0 1rem; }
+    .container { padding: 2rem 1rem 3rem; }
+    .result-header { flex-direction: column; }
+    .verdict-meta { text-align: left; }
+    .ai-cols { grid-template-columns: 1fr; }
+    .api-key-row { flex-direction: column; }
   }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo"><div class="logo-dot"></div>Validador de Medios</div>
-  <div class="header-date" id="header-date"></div>
+  <div class="logo">
+    <div class="logo-dot"></div>
+    Validador de Medios
+  </div>
+  <div class="header-right">
+    <div class="header-date" id="header-date"></div>
+    <div class="api-status inactive" id="api-status-btn" onclick="toggleApiPanel()" title="Configurar API Key de OpenAI">GPT · sin clave</div>
+  </div>
 </header>
 
 <div class="container">
 
   <div class="hero">
     <div class="hero-label">Link Building · Apuestas &amp; Casinos España</div>
-    <h1>Dictamen de medios<br>con análisis IA</h1>
-    <p>Métricas SEO automáticas + análisis real del sitio con ChatGPT. Sin claves, sin instalaciones — solo tu cuenta de ChatGPT.</p>
+    <h1>Dictamen de medios<br>con análisis de contenido</h1>
+    <p>Evaluación automática de métricas SEO + análisis real del contenido del sitio mediante GPT.</p>
   </div>
 
-  <!-- HOW IT WORKS -->
-  <div class="how-it-works" id="how-banner">
-    <div class="how-title">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-      Cómo funciona el análisis con ChatGPT
-    </div>
-    <div class="how-steps">
-      <div class="how-step"><div class="how-num">1</div><span>Rellena los datos del medio y pulsa <strong style="color:var(--text)">Analizar con ChatGPT</strong></span></div>
-      <div class="how-step"><div class="how-num">2</div><span>El prompt con todos los datos se copia automáticamente al portapapeles y se abre ChatGPT</span></div>
-      <div class="how-step"><div class="how-num">3</div><span>Pega el prompt en ChatGPT (Ctrl+V), envíalo y espera la respuesta</span></div>
-      <div class="how-step"><div class="how-num">4</div><span>Copia la respuesta JSON de ChatGPT, pégala aquí y pulsa <strong style="color:var(--text)">Procesar respuesta</strong></span></div>
+  <!-- API KEY BANNER -->
+  <div class="api-banner" id="api-banner">
+    <div class="api-banner-title">⚡ Configura tu API Key de OpenAI para activar el análisis de contenido</div>
+    <p>Sin la clave solo se comprueban las métricas SEO. Con ella, GPT visita el sitio real y analiza temática, calidad editorial y encaje para link building.</p>
+    <div class="api-key-row">
+      <input type="password" id="api-key-input" placeholder="sk-proj-..." />
+      <button class="btn-save-key" onclick="saveApiKey()">Guardar clave</button>
     </div>
   </div>
 
@@ -206,26 +306,26 @@
   </div>
 
   <!-- FORM -->
-  <div class="card">
+  <div class="card" id="form-card">
     <div class="card-title">Datos del medio</div>
     <div class="grid2">
       <div class="full">
         <label>URL del dominio <span>*</span></label>
-        <input id="f-url" placeholder="https://www.ejemplo.es" autocomplete="off"/>
+        <input id="f-url" placeholder="https://www.ejemplo.es" autocomplete="off" />
       </div>
       <div>
         <label>Domain Rating — DR <span>*</span></label>
-        <input id="f-dr" type="number" min="0" max="100" placeholder="Ej: 47"/>
+        <input id="f-dr" type="number" min="0" max="100" placeholder="Ej: 47" />
         <div class="input-hint">mínimo requerido: 25</div>
       </div>
       <div>
         <label>Tráfico mensual <span>*</span></label>
-        <input id="f-traffic" type="number" min="0" placeholder="Ej: 43000"/>
+        <input id="f-traffic" type="number" min="0" placeholder="Ej: 43000" />
         <div class="input-hint">número exacto de visitas · mínimo 1.000</div>
       </div>
       <div>
         <label>Spam Score Moz (%)</label>
-        <input id="f-spam" type="number" min="0" max="100" step="0.1" placeholder="Ej: 2"/>
+        <input id="f-spam" type="number" min="0" max="100" step="0.1" placeholder="Ej: 2" />
         <div class="input-hint">máximo aceptado: 5%</div>
       </div>
       <div>
@@ -250,37 +350,23 @@
       </div>
       <div>
         <label>Precio acordado (€)</label>
-        <input id="f-precio" type="number" placeholder="Ej: 154"/>
+        <input id="f-precio" type="number" placeholder="Ej: 154" />
       </div>
       <div>
         <label>Anchor text propuesto</label>
-        <input id="f-anchor" placeholder="Ej: casinos legales en España"/>
+        <input id="f-anchor" placeholder="Ej: casinos legales en España" />
       </div>
     </div>
     <div id="form-error" style="display:none" class="error-msg"></div>
     <div class="btn-wrap">
-      <button class="btn-primary" onclick="validateOnly()">Solo métricas SEO →</button>
-      <button class="btn-gpt" onclick="openWithGPT()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 0 0 .392-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494zM3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646zM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.676l5.815 3.355-2.02 1.168a.076.076 0 0 1-.071 0l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.872zm16.597 3.855l-5.843-3.371 2.019-1.168a.073.073 0 0 1 .071 0l4.83 2.791a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.4-.679zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08-4.778 2.758a.795.795 0 0 0-.393.681zm1.097-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.607-1.5z"/></svg>
-        Analizar con ChatGPT
-      </button>
+      <button class="btn-primary" id="btn-analyze" onclick="validate()">Analizar dominio →</button>
       <button class="btn-secondary" onclick="clearForm()">Limpiar</button>
     </div>
   </div>
 
-  <!-- GPT PASTE PANEL -->
-  <div class="gpt-panel" id="gpt-panel" style="display:none">
-    <div class="gpt-panel-title">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-      Paso 2 — Pega la respuesta de ChatGPT
-    </div>
-    <p>ChatGPT ya está abierto con el prompt copiado. Pégalo (Ctrl+V), envíalo, y cuando responda copia el JSON completo y pégalo aquí:</p>
-    <textarea id="gpt-response" placeholder='Pega aquí la respuesta JSON de ChatGPT...&#10;&#10;Ejemplo: {"veredicto":"VALIDADO","tematica_real":"Medio deportivo...","calidad_editorial":"ALTA",...}'></textarea>
-    <div id="copied-toast" class="copied-toast">✓ Prompt copiado al portapapeles — ChatGPT está abierto</div>
-    <div class="paste-btn-row">
-      <button class="btn-parse" onclick="processGPTResponse()">Procesar respuesta →</button>
-      <button class="btn-cancel" onclick="cancelGPT()">Cancelar</button>
-    </div>
+  <!-- LOADING -->
+  <div id="loading-wrap" style="display:none" class="loading-wrap">
+    <div class="loading-steps" id="loading-steps"></div>
   </div>
 
   <!-- RESULT -->
@@ -292,276 +378,397 @@
 </div>
 
 <script>
+// ── STATE ──────────────────────────────────────────────
 let history = [];
-let pendingEntry = null;
+let apiKey = localStorage.getItem('oai_key') || '';
 
+// ── INIT ──────────────────────────────────────────────
 document.getElementById('header-date').textContent = new Date().toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'});
+updateApiUI();
 
-// ── HELPERS ──────────────────────────────────────────
-function getTLD(url){
-  try{const h=new URL(url.startsWith('http')?url:'https://'+url).hostname;return'.'+h.split('.').pop()}catch{return''}
-}
-function getDomain(url){
-  try{return new URL(url.startsWith('http')?url:'https://'+url).hostname.replace('www.','')}catch{return url}
-}
-function now(){return new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})}
-
-function showError(msg){
-  const el=document.getElementById('form-error');
-  el.textContent=msg;el.style.display='block';
-}
-
-function clearForm(){
-  ['f-url','f-dr','f-traffic','f-spam','f-precio','f-anchor'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('f-tematica').value='generalista';
-  document.getElementById('f-proyecto').value='WebApuestas';
-  document.getElementById('form-error').style.display='none';
-  document.getElementById('result-wrap').style.display='none';
-  document.getElementById('gpt-panel').style.display='none';
+function updateApiUI() {
+  const btn = document.getElementById('api-status-btn');
+  const banner = document.getElementById('api-banner');
+  if (apiKey) {
+    btn.textContent = 'GPT · activo';
+    btn.className = 'api-status active';
+    banner.style.display = 'none';
+  } else {
+    btn.textContent = 'GPT · sin clave';
+    btn.className = 'api-status inactive';
+    banner.style.display = 'block';
+  }
 }
 
-// ── READ FORM ─────────────────────────────────────────
-function readForm(){
-  const url=document.getElementById('f-url').value.trim();
-  const drRaw=document.getElementById('f-dr').value;
-  const trfRaw=document.getElementById('f-traffic').value;
-  const spamRaw=document.getElementById('f-spam').value;
-  const tematica=document.getElementById('f-tematica').value;
-  const proyecto=document.getElementById('f-proyecto').value;
-  const precio=document.getElementById('f-precio').value||null;
-  const anchor=document.getElementById('f-anchor').value.trim()||null;
-  return{url,drRaw,trfRaw,spamRaw,tematica,proyecto,precio,anchor};
+function toggleApiPanel() {
+  const banner = document.getElementById('api-banner');
+  banner.style.display = banner.style.display === 'none' ? 'block' : 'none';
 }
 
-// ── SEO RULES (shared) ────────────────────────────────
-function applySEORules(url,dr,traffic,spam,tematica){
-  const motivos=[];const pendientes=[];let rechazado=false;
-  const tld=getTLD(url);const domainName=getDomain(url);
+function saveApiKey() {
+  const val = document.getElementById('api-key-input').value.trim();
+  if (!val.startsWith('sk-')) { alert('La clave debe empezar por sk-'); return; }
+  apiKey = val;
+  localStorage.setItem('oai_key', val);
+  document.getElementById('api-key-input').value = '';
+  updateApiUI();
+}
+
+// ── HELPERS ───────────────────────────────────────────
+function getTLD(url) {
+  try {
+    const h = new URL(url.startsWith('http') ? url : 'https://'+url).hostname;
+    return '.' + h.split('.').pop();
+  } catch { return ''; }
+}
+
+function getDomain(url) {
+  try { return new URL(url.startsWith('http') ? url : 'https://'+url).hostname.replace('www.',''); }
+  catch { return url; }
+}
+
+function now() { return new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'}); }
+
+function setLoadingStep(steps, activeIdx) {
+  const el = document.getElementById('loading-steps');
+  el.innerHTML = steps.map((s, i) => {
+    let cls = i < activeIdx ? 'done' : i === activeIdx ? 'active' : 'pending';
+    let icon = i < activeIdx
+      ? '<span class="step-icon ok">✓</span>'
+      : i === activeIdx
+        ? '<div class="spinner"></div>'
+        : '<span class="step-icon">·</span>';
+    return `<div class="loading-step ${cls}">${icon}<span>${s}</span></div>`;
+  }).join('');
+}
+
+// ── FETCH SITE CONTENT VIA PROXY ──────────────────────
+async function fetchSiteContent(url) {
+  const normalized = url.startsWith('http') ? url : 'https://' + url;
+  const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(normalized);
+  const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(12000) });
+  if (!res.ok) throw new Error('No se pudo acceder al sitio');
+  const data = await res.json();
+  const html = data.contents || '';
+
+  // Extract text from HTML
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  ['script','style','nav','footer','header','aside','noscript','iframe'].forEach(tag => {
+    doc.querySelectorAll(tag).forEach(el => el.remove());
+  });
+
+  // Get title + description + body text
+  const title = doc.querySelector('title')?.textContent || '';
+  const desc = doc.querySelector('meta[name="description"]')?.getAttribute('content') || '';
+  const h1s = [...doc.querySelectorAll('h1,h2,h3')].map(h => h.textContent.trim()).filter(Boolean).slice(0, 12).join(' | ');
+  const bodyText = (doc.body?.innerText || doc.body?.textContent || '').replace(/\s+/g,' ').trim().slice(0, 2500);
+
+  return `TÍTULO: ${title}\nDESCRIPCIÓN META: ${desc}\nENCEBEZADOS: ${h1s}\nCONTENIDO: ${bodyText}`;
+}
+
+// ── GPT ANALYSIS ──────────────────────────────────────
+async function analyzeWithGPT(siteText, url, proyecto, anchor) {
+  const systemPrompt = `Eres un experto en link building para el sector de apuestas deportivas y casinos online en España.
+Analiza el contenido de un sitio web y evalúa si es apto para publicar un artículo de pago con enlace dofollow hacia páginas de apuestas, casinos, métodos de pago o fintech en España.
+
+Responde SOLO con JSON válido, sin texto adicional ni backticks:
+{
+  "tematica_real": "descripción breve de la temática principal del sitio",
+  "calidad_editorial": "ALTA", "MEDIA" o "BAJA",
+  "encaje_sector": "BUENO", "REGULAR" o "MALO",
+  "apto_linkbuilding": true o false,
+  "resumen_ia": "2-3 frases explicando el veredicto desde el análisis de contenido",
+  "señales_positivas": ["hasta 3 señales positivas del sitio"],
+  "señales_negativas": ["hasta 3 señales negativas o riesgos"]
+}`;
+
+  const userPrompt = `Proyecto de destino: ${proyecto}${anchor ? '\nAnchor text propuesto: "' + anchor + '"' : ''}
+URL analizada: ${url}
+
+CONTENIDO EXTRAÍDO DEL SITIO:
+${siteText}`;
+
+  const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+    body: JSON.stringify({
+      model: 'gpt-4o-mini',
+      max_tokens: 700,
+      temperature: 0.2,
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt }
+      ]
+    }),
+    signal: AbortSignal.timeout(20000)
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error?.message || 'Error OpenAI ' + res.status);
+  }
+
+  const data = await res.json();
+  const raw = data.choices?.[0]?.message?.content?.trim() || '';
+  return JSON.parse(raw.replace(/^```[a-z]*\n?/i,'').replace(/\n?```$/,'').trim());
+}
+
+// ── VALIDATE ──────────────────────────────────────────
+async function validate() {
+  document.getElementById('form-error').style.display = 'none';
+
+  const url      = document.getElementById('f-url').value.trim();
+  const drRaw    = document.getElementById('f-dr').value;
+  const trfRaw   = document.getElementById('f-traffic').value;
+  const spamRaw  = document.getElementById('f-spam').value;
+  const tematica = document.getElementById('f-tematica').value;
+  const proyecto = document.getElementById('f-proyecto').value;
+  const precio   = document.getElementById('f-precio').value || null;
+  const anchor   = document.getElementById('f-anchor').value.trim() || null;
+
+  if (!url) return showError('Introduce la URL del dominio.');
+  if (!drRaw) return showError('Introduce el Domain Rating (DR).');
+  if (!trfRaw) return showError('Introduce el tráfico mensual.');
+
+  const dr      = parseFloat(drRaw);
+  const traffic = parseFloat(trfRaw);
+  const spam    = spamRaw !== '' ? parseFloat(spamRaw) : null;
+  const tld     = getTLD(url);
+  const domainName = getDomain(url);
+
+  // ── SEO RULES ──────────────────────────────────────
+  const motivos   = [];
+  const pendientes = [];
+  let rechazado   = false;
 
   // TLD
-  if(tld!=='.es'&&tld!=='.com'){rechazado=true;motivos.push({ok:false,text:'TLD '+tld+' no aceptado — solo .es y .com son válidos'})}
-  else{motivos.push({ok:true,text:'TLD '+tld+' válido para el mercado español'});if(tld==='.com')pendientes.push('Verificar con Similarweb que el tráfico es mayoritariamente español')}
+  if (tld !== '.es' && tld !== '.com') {
+    rechazado = true;
+    motivos.push({ ok: false, text: 'TLD ' + tld + ' no aceptado — solo .es y .com son válidos' });
+  } else {
+    motivos.push({ ok: true, text: 'TLD ' + tld + ' válido para el mercado español' });
+    if (tld === '.com') pendientes.push('Verificar con Similarweb que el tráfico es mayoritariamente español');
+  }
 
   // DR
-  if(dr<25){rechazado=true;motivos.push({ok:false,text:'DR '+dr+' por debajo del mínimo requerido (≥25)'})}
-  else motivos.push({ok:true,text:'DR '+dr+' cumple el umbral mínimo de 25'});
+  if (dr < 25) {
+    rechazado = true;
+    motivos.push({ ok: false, text: 'DR ' + dr + ' por debajo del mínimo requerido (≥25)' });
+  } else {
+    motivos.push({ ok: true, text: 'DR ' + dr + ' cumple el umbral mínimo de 25' });
+  }
 
   // Traffic
-  if(traffic<1000){rechazado=true;motivos.push({ok:false,text:'Tráfico de '+traffic.toLocaleString('es-ES')+' visitas/mes por debajo del mínimo (1.000)'})}
-  else{const lbl=traffic>=1000?(traffic/1000).toLocaleString('es-ES',{maximumFractionDigits:1})+'K':traffic;motivos.push({ok:true,text:'Tráfico de '+lbl+' visitas/mes cumple el mínimo requerido'})}
+  if (traffic < 1000) {
+    rechazado = true;
+    motivos.push({ ok: false, text: 'Tráfico de ' + traffic.toLocaleString('es-ES') + ' visitas/mes por debajo del mínimo (1.000)' });
+  } else {
+    const lbl = traffic >= 1000 ? (traffic/1000).toLocaleString('es-ES',{maximumFractionDigits:1})+'K' : traffic;
+    motivos.push({ ok: true, text: 'Tráfico de ' + lbl + ' visitas/mes cumple el mínimo requerido' });
+  }
 
   // Spam
-  if(spam!==null){
-    if(spam>=5){rechazado=true;motivos.push({ok:false,text:'Spam Score '+spam+'% supera el máximo permitido (<5% Moz)'})}
-    else motivos.push({ok:true,text:'Spam Score '+spam+'% dentro del rango aceptable'});
-  }else pendientes.push('Verificar Spam Score en Moz — debe ser inferior al 5%');
+  if (spam !== null) {
+    if (spam >= 5) { rechazado = true; motivos.push({ ok: false, text: 'Spam Score ' + spam + '% supera el máximo permitido (<5% Moz)' }); }
+    else { motivos.push({ ok: true, text: 'Spam Score ' + spam + '% dentro del rango aceptable' }); }
+  } else {
+    pendientes.push('Verificar Spam Score en Moz — debe ser inferior al 5%');
+  }
 
-  // Domain name
-  const ciudades=['elche','elda','torrevieja','benidorm','orihuela','murcia','sevilla','bilbao','zaragoza','valladolid','cordoba','alicante','vigo','gijon','vitoria','granada','alcoy','cartagena','almeria','huelva','badajoz','salamanca','burgos','albacete','castellon','jaen','santander','pamplona','logrono','caceres','lleida','tarragona','girona','sabadell','terrassa','badalona','lanzarote','tenerife','cadiz','jerez','marbella','malaga','toledo','cuenca','guadalajara','segovia','avila','soria','zamora','leon','palencia','oviedo','lugo','ourense','pontevedra','melilla','ceuta'];
-  const kwLocal=['semueve','comarca','municipal','vecin','barrio','ayuntamiento','concejo','parroquia'];
-  const kwSector=['sport','deport','futbol','basket','tenis','apuest','casino','bet','bingo','poker','ruleta','slot','loteria','pago','fintech','tech','periodist','prensa','diario','actualidad'];
-  const dl=domainName.toLowerCase();
-  const ciudadMatch=ciudades.find(c=>dl.includes(c));
-  if(ciudadMatch){rechazado=true;motivos.push({ok:false,text:'El dominio contiene el topónimo "'+ciudadMatch+'" — medio local sin encaje con el sector'})}
-  else if(kwLocal.some(k=>dl.includes(k))&&!kwSector.some(k=>dl.includes(k))){rechazado=true;motivos.push({ok:false,text:'El dominio presenta indicadores de medio local/municipal sin relación con el sector'})}
+  // Domain name analysis
+  const ciudades = ['elche','elda','torrevieja','benidorm','orihuela','murcia','sevilla','bilbao','zaragoza','valladolid','cordoba','alicante','vigo','gijon','vitoria','granada','alcoy','cartagena','almeria','huelva','badajoz','salamanca','burgos','albacete','castellon','jaen','santander','pamplona','logrono','caceres','lleida','lerida','tarragona','girona','gerona','sabadell','terrassa','badalona','lanzarote','tenerife','cadiz','jerez','marbella','malaga','toledo','cuenca','guadalajara','segovia','avila','soria','zamora','leon','palencia','oviedo','lugo','ourense','pontevedra','melilla','ceuta'];
+  const kwLocal = ['semueve','comarca','municipal','vecin','barrio','ayuntamiento','concejo','parroquia'];
+  const kwSector = ['sport','deport','futbol','basket','tenis','apuest','casino','bet','bingo','poker','ruleta','slot','loteria','pago','fintech','tech','periodist','prensa','diario','actualidad'];
+
+  const dl = domainName.toLowerCase();
+  const ciudadMatch = ciudades.find(c => dl.includes(c));
+  if (ciudadMatch) {
+    rechazado = true;
+    motivos.push({ ok: false, text: 'El dominio contiene el topónimo "' + ciudadMatch + '" — medio local sin encaje temático con el sector' });
+  } else if (kwLocal.some(k => dl.includes(k)) && !kwSector.some(k => dl.includes(k))) {
+    rechazado = true;
+    motivos.push({ ok: false, text: 'El dominio presenta indicadores de medio local/municipal sin relación con el sector' });
+  }
 
   // Temática
-  const prioritarias=['deportes','apuestas','fintech','tecnologia','regulacion'];
-  let encaje,encajeColor;
-  if(prioritarias.includes(tematica)){encaje='PRIORITARIO';encajeColor='green';motivos.push({ok:true,text:'Temática con encaje prioritario (apuestas/deporte/fintech/regulación)'})}
-  else if(tematica==='generalista'){
-    if(rechazado){encaje='DESCARTADO';encajeColor='red'}
-    else{encaje='PUNTUAL';encajeColor='amber';motivos.push({ok:true,text:'Generalista — válido solo con artículo contextualizado sobre juego, deporte o regulación'});pendientes.push('El artículo debe tener contexto directo sobre juego, deporte o regulación')}
-  }else{encaje='DESCARTADO';encajeColor='red';rechazado=true;motivos.push({ok:false,text:'Temática sin encaje con el sector'})}
+  const prioritarias = ['deportes','apuestas','fintech','tecnologia','regulacion'];
+  let encaje, encajeColor;
+  if (prioritarias.includes(tematica)) {
+    encaje = 'PRIORITARIO'; encajeColor = 'green';
+    motivos.push({ ok: true, text: 'Temática con encaje prioritario (apuestas/deporte/fintech/regulación)' });
+  } else if (tematica === 'generalista') {
+    if (rechazado) { encaje = 'DESCARTADO'; encajeColor = 'red'; }
+    else {
+      encaje = 'PUNTUAL'; encajeColor = 'amber';
+      motivos.push({ ok: true, text: 'Generalista — válido solo con artículo contextualizado sobre juego, deporte o regulación' });
+      pendientes.push('El artículo debe tener contexto directo sobre juego, deporte o regulación');
+    }
+  } else {
+    encaje = 'DESCARTADO'; encajeColor = 'red'; rechazado = true;
+    motivos.push({ ok: false, text: 'Temática sin encaje con el sector — descartado por criterio editorial' });
+  }
 
   pendientes.push('Verificar historial de tráfico en Ahrefs/Semrush — rechazar si caída >30% en 3 meses');
 
-  let riesgo,riesgoColor;
-  if(rechazado){riesgo='ALTO';riesgoColor='red'}
-  else if(pendientes.length>=3||getTLD(url)==='.com'||spam===null){riesgo='MEDIO';riesgoColor='amber'}
-  else{riesgo='BAJO';riesgoColor='green'}
+  let riesgo, riesgoColor;
+  if (rechazado) { riesgo = 'ALTO'; riesgoColor = 'red'; }
+  else if (pendientes.length >= 3 || tld === '.com' || spam === null) { riesgo = 'MEDIO'; riesgoColor = 'amber'; }
+  else { riesgo = 'BAJO'; riesgoColor = 'green'; }
 
-  return{motivos,pendientes,rechazado,encaje,encajeColor,riesgo,riesgoColor};
-}
+  // ── AI ANALYSIS ───────────────────────────────────
+  let aiResult = null;
+  document.getElementById('result-wrap').style.display = 'none';
 
-// ── VALIDATE ONLY SEO ────────────────────────────────
-function validateOnly(){
-  document.getElementById('form-error').style.display='none';
-  const f=readForm();
-  if(!f.url)return showError('Introduce la URL del dominio.');
-  if(!f.drRaw)return showError('Introduce el Domain Rating (DR).');
-  if(!f.trfRaw)return showError('Introduce el tráfico mensual.');
-  const dr=parseFloat(f.drRaw),traffic=parseFloat(f.trfRaw),spam=f.spamRaw!==''?parseFloat(f.spamRaw):null;
-  const seo=applySEORules(f.url,dr,traffic,spam,f.tematica);
-  const veredicto=seo.rechazado?'RECHAZADO':'VALIDADO';
-  const entry={url:f.url,dr,traffic,spam,tematica:f.tematica,proyecto:f.proyecto,precio:f.precio,anchor:f.anchor,...seo,veredicto,aiResult:null,ts:now()};
-  history.unshift(entry);updateStats();renderResult(entry);renderHistory();
-  document.getElementById('result-wrap').scrollIntoView({behavior:'smooth',block:'start'});
-}
+  if (apiKey) {
+    const steps = ['Verificando métricas SEO', 'Cargando contenido del sitio', 'Analizando con GPT-4o mini', 'Generando dictamen final'];
+    document.getElementById('loading-wrap').style.display = 'block';
+    document.getElementById('btn-analyze').disabled = true;
 
-// ── BUILD GPT PROMPT ──────────────────────────────────
-function buildGPTPrompt(f){
-  const url=f.url.startsWith('http')?f.url:'https://'+f.url;
-  return `Eres un experto en link building para el sector de apuestas deportivas y casinos online en España.
+    try {
+      setLoadingStep(steps, 0);
+      await new Promise(r => setTimeout(r, 600));
 
-Visita y analiza el sitio web: ${url}
+      setLoadingStep(steps, 1);
+      let siteText = '';
+      try { siteText = await fetchSiteContent(url); }
+      catch (e) { siteText = 'No se pudo cargar el contenido del sitio (' + e.message + ')'; }
 
-Proyecto de destino: ${f.proyecto}${f.anchor?'\nAnchor text propuesto: "'+f.anchor+'"':''}
+      setLoadingStep(steps, 2);
+      try { aiResult = await analyzeWithGPT(siteText, url, proyecto, anchor); }
+      catch (e) { aiResult = { error: e.message }; }
 
-Evalúa si este sitio es apto para publicar un artículo de pago con enlace dofollow. Analiza:
-1. Temática real del sitio (¿de qué trata realmente?)
-2. Calidad editorial (¿tiene criterio editorial claro, autores, estructura?)
-3. Encaje con el sector apuestas/casinos/fintech/deporte español
-4. Si el anchor text propuesto encajaría de forma natural en un artículo de ese sitio
-5. Señales positivas y negativas que detectes
+      setLoadingStep(steps, 3);
+      await new Promise(r => setTimeout(r, 400));
+    } finally {
+      document.getElementById('loading-wrap').style.display = 'none';
+      document.getElementById('btn-analyze').disabled = false;
+    }
 
-Responde ÚNICAMENTE con este JSON (sin texto antes ni después, sin backticks):
-{"veredicto_ia":"APTO" o "NO_APTO","tematica_real":"descripción de la temática","calidad_editorial":"ALTA","MEDIA" o "BAJA","encaje_sector":"BUENO","REGULAR" o "MALO","resumen_ia":"2-3 frases directas explicando tu veredicto","señales_positivas":["señal 1","señal 2"],"señales_negativas":["señal 1","señal 2"]}`;
-}
-
-// ── OPEN WITH CHATGPT ─────────────────────────────────
-function openWithGPT(){
-  document.getElementById('form-error').style.display='none';
-  const f=readForm();
-  if(!f.url)return showError('Introduce la URL del dominio.');
-  if(!f.drRaw)return showError('Introduce el Domain Rating (DR).');
-  if(!f.trfRaw)return showError('Introduce el tráfico mensual.');
-
-  const dr=parseFloat(f.drRaw),traffic=parseFloat(f.trfRaw),spam=f.spamRaw!==''?parseFloat(f.spamRaw):null;
-  const seo=applySEORules(f.url,dr,traffic,spam,f.tematica);
-  pendingEntry={url:f.url,dr,traffic,spam,tematica:f.tematica,proyecto:f.proyecto,precio:f.precio,anchor:f.anchor,...seo};
-
-  const prompt=buildGPTPrompt(f);
-  navigator.clipboard.writeText(prompt).then(()=>{
-    const toast=document.getElementById('copied-toast');
-    toast.classList.add('show');
-    setTimeout(()=>toast.classList.remove('show'),4000);
-  }).catch(()=>{
-    // fallback: show prompt in textarea so user can copy manually
-    document.getElementById('gpt-response').value=prompt;
-  });
-
-  window.open('https://chatgpt.com/','_blank');
-  document.getElementById('gpt-panel').style.display='block';
-  document.getElementById('gpt-panel').scrollIntoView({behavior:'smooth',block:'start'});
-}
-
-// ── PROCESS GPT RESPONSE ─────────────────────────────
-function processGPTResponse(){
-  const raw=document.getElementById('gpt-response').value.trim();
-  if(!raw){alert('Pega la respuesta de ChatGPT antes de continuar.');return}
-
-  let aiResult=null;
-  try{
-    const clean=raw.replace(/^```[a-z]*\n?/i,'').replace(/\n?```$/,'').trim();
-    // find JSON object
-    const match=clean.match(/\{[\s\S]*\}/);
-    if(!match)throw new Error('No se encontró JSON válido');
-    aiResult=JSON.parse(match[0]);
-  }catch(e){
-    alert('No se pudo interpretar la respuesta. Asegúrate de copiar solo el JSON de ChatGPT.\nError: '+e.message);
-    return;
+    // Override verdict if AI says clearly not suitable
+    if (aiResult && !aiResult.error && !aiResult.apto_linkbuilding && !rechazado) {
+      rechazado = true;
+      riesgo = 'ALTO'; riesgoColor = 'red';
+      encaje = 'DESCARTADO'; encajeColor = 'red';
+      motivos.push({ ok: false, text: 'GPT: el análisis de contenido real indica que el sitio no es apto para link building en el sector' });
+    } else if (aiResult && !aiResult.error && aiResult.apto_linkbuilding && aiResult.encaje_sector === 'BUENO') {
+      if (encaje === 'PUNTUAL') { encaje = 'PRIORITARIO'; encajeColor = 'green'; }
+    }
   }
 
-  const seo=pendingEntry;
-  let{rechazado,encaje,encajeColor,riesgo,riesgoColor}=seo;
-
-  // Merge AI verdict
-  if(aiResult.veredicto_ia==='NO_APTO'&&!rechazado){
-    rechazado=true;riesgo='ALTO';riesgoColor='red';encaje='DESCARTADO';encajeColor='red';
-    seo.motivos.push({ok:false,text:'ChatGPT: el análisis de contenido real indica que el sitio no es apto para link building en el sector'});
-  }else if(aiResult.veredicto_ia==='APTO'&&aiResult.encaje_sector==='BUENO'&&encaje==='PUNTUAL'){
-    encaje='PRIORITARIO';encajeColor='green';
-  }
-
-  const veredicto=rechazado?'RECHAZADO':'VALIDADO';
-  const entry={...seo,rechazado,encaje,encajeColor,riesgo,riesgoColor,veredicto,aiResult,ts:now()};
-  history.unshift(entry);updateStats();
-
-  document.getElementById('gpt-panel').style.display='none';
-  document.getElementById('gpt-response').value='';
-  renderResult(entry);renderHistory();
-  document.getElementById('result-wrap').scrollIntoView({behavior:'smooth',block:'start'});
-  pendingEntry=null;
+  const veredicto = rechazado ? 'RECHAZADO' : 'VALIDADO';
+  const entry = { url, dr, traffic, spam, tematica, proyecto, precio, anchor, encaje, encajeColor, riesgo, riesgoColor, motivos, pendientes, veredicto, aiResult, ts: now() };
+  history.unshift(entry);
+  updateStats();
+  renderResult(entry);
+  renderHistory();
+  document.getElementById('result-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-function cancelGPT(){
-  document.getElementById('gpt-panel').style.display='none';
-  document.getElementById('gpt-response').value='';
-  pendingEntry=null;
+// ── RENDER ────────────────────────────────────────────
+function showError(msg) {
+  const el = document.getElementById('form-error');
+  el.textContent = msg; el.style.display = 'block';
 }
 
-// ── STATS ─────────────────────────────────────────────
-function updateStats(){
-  document.getElementById('stats-bar').style.display='grid';
-  document.getElementById('s-total').textContent=history.length;
-  document.getElementById('s-ok').textContent=history.filter(h=>h.veredicto==='VALIDADO').length;
-  document.getElementById('s-ko').textContent=history.filter(h=>h.veredicto==='RECHAZADO').length;
+function clearForm() {
+  ['f-url','f-dr','f-traffic','f-spam','f-precio','f-anchor'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-tematica').value = 'generalista';
+  document.getElementById('f-proyecto').value = 'WebApuestas';
+  document.getElementById('form-error').style.display = 'none';
+  document.getElementById('result-wrap').style.display = 'none';
 }
 
-// ── RENDER RESULT ─────────────────────────────────────
-function renderResult(e){
-  const sc=e.veredicto==='VALIDADO';
-  const icon=sc?'✓':'✗';
-  const trafficLbl=e.traffic>=1000?(e.traffic/1000).toLocaleString('es-ES',{maximumFractionDigits:1})+'K':e.traffic;
+function updateStats() {
+  document.getElementById('stats-bar').style.display = 'grid';
+  document.getElementById('s-total').textContent = history.length;
+  document.getElementById('s-ok').textContent = history.filter(h => h.veredicto === 'VALIDADO').length;
+  document.getElementById('s-ko').textContent = history.filter(h => h.veredicto === 'RECHAZADO').length;
+}
 
-  const badges=[
+function renderResult(e) {
+  const sc = e.veredicto === 'VALIDADO';
+  const icon = sc ? '✓' : '✗';
+
+  const trafficLbl = e.traffic >= 1000 ? (e.traffic/1000).toLocaleString('es-ES',{maximumFractionDigits:1})+'K' : e.traffic;
+
+  const badges = [
     `<span class="badge badge-${e.encajeColor}">Encaje: ${e.encaje}</span>`,
     `<span class="badge badge-${e.riesgoColor}">Riesgo: ${e.riesgo}</span>`,
-    `<span class="badge ${e.dr>=25?'badge-green':'badge-red'}">DR ${e.dr}</span>`,
-    `<span class="badge ${getTLD(e.url)==='.es'||getTLD(e.url)==='.com'?'badge-green':'badge-red'}">${getTLD(e.url).toUpperCase()}</span>`,
+    `<span class="badge ${e.dr >= 25 ? 'badge-green' : 'badge-red'}">DR ${e.dr}</span>`,
+    `<span class="badge ${getTLD(e.url) === '.es' || getTLD(e.url) === '.com' ? 'badge-green' : 'badge-red'}">${getTLD(e.url).toUpperCase()}</span>`,
     `<span class="badge badge-blue">${e.proyecto}</span>`,
-    e.precio?`<span class="badge badge-gray">${e.precio} €</span>`:'',
-    e.anchor?`<span class="badge badge-gray">"${e.anchor}"</span>`:'',
-    e.aiResult&&!e.aiResult.error?`<span class="badge badge-gpt">ChatGPT analizado</span>`:'',
+    e.precio ? `<span class="badge badge-gray">${e.precio} €</span>` : '',
+    e.anchor ? `<span class="badge badge-gray">"${e.anchor}"</span>` : '',
+    e.aiResult && !e.aiResult.error ? `<span class="badge badge-purple">GPT analizado</span>` : '',
   ].join('');
 
-  const motivosHTML=e.motivos.map(m=>`<div class="motivo"><span class="motivo-icon ${m.ok?'ok':'fail'}">${m.ok?'✓':'✗'}</span><span>${m.text}</span></div>`).join('');
-  const pendientesHTML=e.pendientes.length?`<div class="pending-box"><div class="pending-title">Verificar antes de contratar</div>${e.pendientes.map(v=>`<div class="pending-item"><span style="flex-shrink:0">·</span>${v}</div>`).join('')}</div>`:'';
+  const motivosHTML = e.motivos.map(m =>
+    `<div class="motivo"><span class="motivo-icon ${m.ok?'ok':'fail'}">${m.ok?'✓':'✗'}</span><span class="motivo-text">${m.text}</span></div>`
+  ).join('');
 
-  let aiHTML='';
-  if(e.aiResult){
-    const ai=e.aiResult;
-    const aptoBadge=ai.veredicto_ia==='APTO'?'badge-green':'badge-red';
-    const calidad=ai.calidad_editorial==='ALTA'?'badge-green':ai.calidad_editorial==='MEDIA'?'badge-amber':'badge-red';
-    const encajeIA=ai.encaje_sector==='BUENO'?'badge-green':ai.encaje_sector==='REGULAR'?'badge-amber':'badge-red';
-    const posHTML=(ai.señales_positivas||[]).map(s=>`<div class="ai-signal pos"><span>✓</span><span>${s}</span></div>`).join('');
-    const negHTML=(ai.señales_negativas||[]).map(s=>`<div class="ai-signal neg"><span>✗</span><span>${s}</span></div>`).join('');
-    aiHTML=`<div class="divider"></div>
-      <div class="ai-section">
-        <div class="ai-header">
-          <div class="ai-header-left"><span class="ai-badge">ChatGPT</span><span class="ai-title">Análisis de contenido real</span></div>
-          <span class="ai-verdict ${aptoBadge}">${ai.veredicto_ia==='APTO'?'Apto':'No apto'}</span>
-        </div>
-        <div class="ai-body">
-          <div class="ai-resumen">${ai.resumen_ia||''}</div>
-          <div class="ai-meta-row">
-            <span class="badge ${aptoBadge}">${ai.veredicto_ia==='APTO'?'Apto para link building':'No apto para link building'}</span>
-            <span class="badge ${calidad}">Calidad: ${ai.calidad_editorial}</span>
-            <span class="badge ${encajeIA}">Encaje: ${ai.encaje_sector}</span>
-            ${ai.tematica_real?`<span class="badge badge-gray">${ai.tematica_real}</span>`:''}
+  const pendientesHTML = e.pendientes.length ? `
+    <div class="pending-box">
+      <div class="pending-title">Verificar antes de contratar</div>
+      ${e.pendientes.map(v => `<div class="pending-item"><span style="flex-shrink:0">·</span>${v}</div>`).join('')}
+    </div>` : '';
+
+  let aiHTML = '';
+  if (e.aiResult) {
+    if (e.aiResult.error) {
+      aiHTML = `<div class="divider"></div>
+        <div class="ai-section">
+          <div class="ai-header">
+            <div class="ai-header-left"><span class="ai-badge">GPT</span><span class="ai-title">Análisis de contenido</span></div>
+            <span class="ai-verdict" style="background:var(--amber-bg);color:var(--amber)">Error</span>
           </div>
-          ${posHTML||negHTML?`<div class="ai-cols">
-            <div><div class="ai-col-title">Señales positivas</div>${posHTML||'<div class="ai-signal" style="color:var(--muted);opacity:.5">Ninguna</div>'}</div>
-            <div><div class="ai-col-title">Señales negativas</div>${negHTML||'<div class="ai-signal" style="color:var(--muted);opacity:.5">Ninguna</div>'}</div>
-          </div>`:''}
-        </div>
-      </div>`;
+          <div class="ai-body"><div class="ai-resumen" style="color:var(--muted)">No se pudo completar el análisis: ${e.aiResult.error}</div></div>
+        </div>`;
+    } else {
+      const ai = e.aiResult;
+      const aptoBadgeColor = ai.apto_linkbuilding ? 'badge-green' : 'badge-red';
+      const aptoBadgeText = ai.apto_linkbuilding ? 'Apto para link building' : 'No apto para link building';
+      const calidad = ai.calidad_editorial === 'ALTA' ? 'badge-green' : ai.calidad_editorial === 'MEDIA' ? 'badge-amber' : 'badge-red';
+      const encajeIA = ai.encaje_sector === 'BUENO' ? 'badge-green' : ai.encaje_sector === 'REGULAR' ? 'badge-amber' : 'badge-red';
+
+      const posHTML = (ai.señales_positivas || []).map(s => `<div class="ai-signal pos"><span>✓</span><span>${s}</span></div>`).join('');
+      const negHTML = (ai.señales_negativas || []).map(s => `<div class="ai-signal neg"><span>✗</span><span>${s}</span></div>`).join('');
+
+      aiHTML = `<div class="divider"></div>
+        <div class="ai-section">
+          <div class="ai-header">
+            <div class="ai-header-left"><span class="ai-badge">GPT-4o mini</span><span class="ai-title">Análisis de contenido real</span></div>
+            <span class="ai-verdict ${aptoBadgeColor}">${ai.apto_linkbuilding ? 'Apto' : 'No apto'}</span>
+          </div>
+          <div class="ai-body">
+            <div class="ai-resumen">${ai.resumen_ia || ''}</div>
+            <div class="ai-meta-row" style="margin-bottom:14px">
+              <span class="badge ${aptoBadgeColor}">${aptoBadgeText}</span>
+              <span class="badge ${calidad}">Calidad: ${ai.calidad_editorial}</span>
+              <span class="badge ${encajeIA}">Encaje: ${ai.encaje_sector}</span>
+              ${ai.tematica_real ? `<span class="badge badge-gray">${ai.tematica_real}</span>` : ''}
+            </div>
+            ${(posHTML || negHTML) ? `<div class="ai-cols">
+              <div><div class="ai-col-title">Señales positivas</div>${posHTML || '<div class="ai-signal" style="color:var(--muted);opacity:.5">Ninguna detectada</div>'}</div>
+              <div><div class="ai-col-title">Señales negativas</div>${negHTML || '<div class="ai-signal" style="color:var(--muted);opacity:.5">Ninguna detectada</div>'}</div>
+            </div>` : ''}
+          </div>
+        </div>`;
+    }
   }
 
-  document.getElementById('result-wrap').style.display='block';
-  document.getElementById('result-wrap').innerHTML=`
+  const html = `
     <div class="result-card">
       <div class="result-header ${sc?'valid':'invalid'}">
         <div>
           <div class="verdict-label">Dictamen · ${e.ts}</div>
-          <div class="verdict-text ${sc?'valid':'invalid'}">${icon} ${sc?'Validado':'Rechazado'}</div>
+          <div class="verdict-text ${sc?'valid':'invalid'}">${icon} ${sc ? 'Validado' : 'Rechazado'}</div>
           <div class="verdict-domain">${e.url}</div>
         </div>
         <div class="verdict-meta">
           <div class="verdict-meta-label">Tráfico</div>
           <div class="verdict-meta-val">${trafficLbl} vis/mes</div>
-          ${e.spam!==null?`<div class="verdict-meta-label" style="margin-top:8px">Spam Score</div><div class="verdict-meta-val">${e.spam}%</div>`:''}
+          ${e.spam !== null ? `<div class="verdict-meta-label" style="margin-top:8px">Spam Score</div><div class="verdict-meta-val">${e.spam}%</div>` : ''}
         </div>
       </div>
       <div class="result-body">
@@ -572,32 +779,37 @@ function renderResult(e){
         ${pendientesHTML}
       </div>
     </div>`;
+
+  const wrap = document.getElementById('result-wrap');
+  wrap.style.display = 'block';
+  wrap.innerHTML = html;
 }
 
-// ── HISTORY ───────────────────────────────────────────
-function renderHistory(){
-  if(history.length<2){document.getElementById('hist-wrap').style.display='none';return}
-  const items=history.slice(1).map((h,i)=>{
-    const sc=h.veredicto==='VALIDADO';
-    return`<div class="hist-item" onclick="loadEntry(${i+1})">
+function renderHistory() {
+  if (history.length < 2) { document.getElementById('hist-wrap').style.display = 'none'; return; }
+  const items = history.slice(1).map((h, i) => {
+    const sc = h.veredicto === 'VALIDADO';
+    return `<div class="hist-item" onclick="loadEntry(${i+1})">
       <div class="hist-dot" style="background:${sc?'var(--green)':'var(--red)'}"></div>
       <div class="hist-domain">${h.url}</div>
-      ${h.aiResult?'<span class="hist-gpt-badge">GPT</span>':''}
+      ${h.aiResult && !h.aiResult.error ? '<span class="hist-ai">GPT</span>' : ''}
       <span class="hist-verdict" style="background:${sc?'var(--green-bg)':'var(--red-bg)'};color:${sc?'var(--green)':'var(--red)'};">${h.veredicto}</span>
       <div class="hist-ts">${h.ts}</div>
     </div>`;
   }).join('');
-  document.getElementById('hist-wrap').style.display='block';
-  document.getElementById('hist-wrap').innerHTML=`<div class="hist-section"><div class="hist-title">Historial de sesión</div>${items}</div>`;
+  const wrap = document.getElementById('hist-wrap');
+  wrap.style.display = 'block';
+  wrap.innerHTML = `<div class="hist-section"><div class="hist-title">Historial de sesión</div>${items}</div>`;
 }
 
-function loadEntry(i){
+function loadEntry(i) {
   renderResult(history[i]);
-  document.getElementById('result-wrap').scrollIntoView({behavior:'smooth',block:'start'});
+  document.getElementById('result-wrap').scrollIntoView({ behavior:'smooth', block:'start' });
 }
 
-document.addEventListener('keydown',e=>{
-  if(e.key==='Enter'&&e.target.tagName==='INPUT')validateOnly();
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.target.tagName === 'INPUT' && e.target.id !== 'api-key-input') validate();
+  if (e.key === 'Enter' && e.target.id === 'api-key-input') saveApiKey();
 });
 </script>
 </body>
